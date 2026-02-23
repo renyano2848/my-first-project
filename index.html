@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>子どもの運動神経は、今しか伸ばせない。 | オンラインフィジカルレッスン</title>
+    <style>
+        :root {
+            --yg:  #C8A028;   /* yellow gold */
+            --ygl: #E2C050;   /* yellow gold light */
+            --ygd: #7A600C;   /* yellow gold dark */
+            --wg:  #CECDCA;   /* white gold */
+            --wgl: #E8E6E0;   /* white gold light */
+            --wgd: #8A8880;   /* white gold dark */
+            --rg:  #B87260;   /* rose gold */
+            --rgl: #D49080;   /* rose gold light */
+            --rgd: #804830;   /* rose gold dark */
+            --bg0: #060508;   /* deepest */
+            --bg1: #0B090F;   /* dark */
+            --bg2: #100E16;   /* mid */
+            --tx:  #E8E3D4;   /* main text */
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg0);
+            color: var(--tx);
+            font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'MS PMincho', Georgia, serif;
+            line-height: 1.9;
+            overflow-x: hidden;
+        }
+
+        /* ── gold gradient text ── */
+        .g {
+            background: linear-gradient(115deg, var(--rg) 0%, var(--yg) 45%, var(--wg) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ── hairline ── */
+        .rule {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--rg) 25%, var(--yg) 50%, var(--wg) 75%, transparent);
+        }
+        .rule--short { max-width: 120px; margin: 0 auto; }
+
+        /* ── label ── */
+        .lbl {
+            font-size: 0.68rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--yg);
+        }
+
+        /* ── trinity rings ── */
+        .trinity { display:flex; align-items:center; justify-content:center; }
+        .ring {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            border: 2.5px solid transparent;
+        }
+        .ring--r { border-color:var(--rg); box-shadow:0 0 14px rgba(184,114,96,.5); margin-right:-10px; }
+        .ring--y { border-color:var(--yg); box-shadow:0 0 14px rgba(200,160,40,.5); z-index:1; }
+        .ring--w { border-color:var(--wg); box-shadow:0 0 14px rgba(206,205,202,.4); margin-left:-10px; }
+
+        /* ── CTA button ── */
+        .cta {
+            display: inline-block;
+            padding: 22px 68px;
+            font-size: 1.15rem;
+            font-family: inherit;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            background: linear-gradient(110deg, var(--rgd) 0%, var(--yg) 50%, var(--wgl) 100%);
+            color: #06050A;
+            transition: transform .3s, box-shadow .3s;
+            box-shadow: 0 0 36px rgba(200,160,40,.3), 0 6px 24px rgba(0,0,0,.5);
+        }
+        .cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 56px rgba(200,160,40,.55), 0 10px 32px rgba(0,0,0,.6);
+        }
+        .cta--outline {
+            background: transparent;
+            border: 1px solid var(--yg);
+            color: var(--yg);
+            box-shadow: none;
+        }
+        .cta--outline:hover {
+            background: rgba(200,160,40,.08);
+            box-shadow: 0 0 30px rgba(200,160,40,.2);
+        }
+
+        /* ═══════════════════════════════════════
+           HERO
+        ═══════════════════════════════════════ */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            padding: 80px 32px 60px;
+            position: relative;
+            background:
+                radial-gradient(ellipse 90% 60% at 50% 35%, rgba(24,18,6,.95) 0%, transparent 70%),
+                radial-gradient(ellipse at 15% 70%, rgba(100,50,30,.07) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 30%, rgba(200,160,40,.05) 0%, transparent 50%),
+                var(--bg0);
+        }
+        .hero::before {
+            content:'';
+            position:absolute; inset:0;
+            background-image:
+                linear-gradient(rgba(200,160,40,.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200,160,40,.025) 1px, transparent 1px);
+            background-size: 80px 80px;
+            pointer-events: none;
+        }
+
+        .hero__inner { position:relative; max-width: 860px; }
+
+        .hero__eyebrow {
+            font-size: 0.7rem;
+            letter-spacing: 0.55em;
+            text-transform: uppercase;
+            color: var(--yg);
+            border: 1px solid rgba(200,160,40,.35);
+            display: inline-block;
+            padding: 7px 28px;
+            margin-bottom: 52px;
+        }
+
+        .hero__catch {
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            font-weight: 700;
+            line-height: 1.18;
+            letter-spacing: 0.03em;
+            margin-bottom: 36px;
+        }
+
+        .hero__trinity { margin: 0 0 36px; }
+
+        .hero__lead {
+            font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+            color: var(--wgd);
+            max-width: 540px;
+            margin: 0 auto 56px;
+            line-height: 2;
+            letter-spacing: 0.04em;
+        }
+
+        .hero__scroll {
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: var(--ygd);
+            font-size: 0.65rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+        }
+        .hero__scroll-line {
+            width: 1px;
+            height: 48px;
+            background: linear-gradient(to bottom, var(--yg), transparent);
+            animation: scrollline 2s ease-in-out infinite;
+        }
+        @keyframes scrollline {
+            0%,100%{opacity:1} 50%{opacity:0.2}
+        }
+
+        /* ═══════════════════════════════════════
+           MARQUEE
+        ═══════════════════════════════════════ */
+        .marquee-wrap {
+            overflow: hidden;
+            padding: 18px 0;
+            border-top: 1px solid rgba(200,160,40,.12);
+            border-bottom: 1px solid rgba(200,160,40,.12);
+            background: rgba(200,160,40,.03);
+        }
+        .marquee-track {
+            display: flex;
+            gap: 0;
+            animation: marquee 28s linear infinite;
+            white-space: nowrap;
+        }
+        .marquee-track span {
+            font-size: 0.72rem;
+            letter-spacing: 0.45em;
+            text-transform: uppercase;
+            color: var(--ygd);
+            padding: 0 48px;
+        }
+        .marquee-track span.dot {
+            color: var(--yg);
+            padding: 0;
+            letter-spacing: 0;
+            font-size: 0.5rem;
+        }
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        /* ═══════════════════════════════════════
+           PHILOSOPHY (two-column)
+        ═══════════════════════════════════════ */
+        .philosophy {
+            background: var(--bg1);
+            padding: 120px 32px;
+        }
+        .philosophy__inner {
+            max-width: 1040px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: start;
+        }
+        .philosophy__left {}
+        .philosophy__num {
+            font-size: 6rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 28px;
+            opacity: 0.08;
+        }
+        .philosophy__title {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            line-height: 1.55;
+            font-weight: 700;
+            margin: 16px 0 32px;
+        }
+        .philosophy__right {
+            padding-top: 12px;
+        }
+        .philosophy__body {
+            font-size: 0.96rem;
+            color: var(--wgd);
+            line-height: 2.1;
+        }
+        .philosophy__body p + p { margin-top: 1.5em; }
+
+        @media (max-width: 720px) {
+            .philosophy__inner { grid-template-columns:1fr; gap:40px; }
+        }
+
+        /* ═══════════════════════════════════════
+           STATS
+        ═══════════════════════════════════════ */
+        .stats {
+            background: var(--bg0);
+            padding: 100px 32px;
+        }
+        .stats__inner {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .stats__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            margin-top: 60px;
+            border: 1px solid rgba(200,160,40,.12);
+        }
+        .stat {
+            padding: 52px 36px;
+            text-align: center;
+            border-right: 1px solid rgba(200,160,40,.12);
+            position: relative;
+        }
+        .stat:last-child { border-right: none; }
+        .stat::before {
+            content:'';
+            position:absolute; top:0; left:0; right:0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--rg), var(--yg), var(--wg));
+        }
+        .stat__num {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .stat__unit {
+            font-size: 1rem;
+            color: var(--yg);
+            vertical-align: super;
+            margin-left: 4px;
+        }
+        .stat__label {
+            font-size: 0.8rem;
+            color: var(--wgd);
+            letter-spacing: 0.12em;
+            margin-top: 10px;
+        }
+        @media (max-width: 600px) {
+            .stats__grid { grid-template-columns:1fr; }
+            .stat { border-right:none; border-bottom:1px solid rgba(200,160,40,.12); }
+            .stat:last-child { border-bottom:none; }
+        }
+
+        /* ═══════════════════════════════════════
+           PAIN POINTS
+        ═══════════════════════════════════════ */
+        .pain {
+            background: var(--bg2);
+            padding: 110px 32px;
+        }
+        .pain__inner { max-width: 960px; margin: 0 auto; }
+        .pain__grid {
+            margin-top: 56px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .pain__item {
+            padding: 28px 32px;
+            border: 1px solid rgba(200,160,40,.1);
+            background: rgba(200,160,40,.02);
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            transition: border-color .3s, background .3s;
+        }
+        .pain__item:hover {
+            border-color: rgba(200,160,40,.28);
+            background: rgba(200,160,40,.05);
+        }
+        .pain__item:last-child:nth-child(odd) {
+            grid-column: 1 / -1;
+            max-width: calc(50% - 8px);
+        }
+        .pain__dash {
+            color: var(--yg);
+            font-size: 1.2rem;
+            line-height: 1;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        .pain__q {
+            font-size: 1rem;
+            color: var(--wgl);
+            line-height: 1.7;
+            font-style: italic;
+        }
+        .pain__close {
+            margin-top: 48px;
+            font-size: 1rem;
+            color: var(--wgd);
+            line-height: 2;
+            max-width: 680px;
+        }
+        @media (max-width: 640px) {
+            .pain__grid { grid-template-columns:1fr; }
+            .pain__item:last-child:nth-child(odd) { grid-column: auto; max-width:none; }
+        }
+
+        /* ═══════════════════════════════════════
+           FEATURES (editorial 3-col)
+        ═══════════════════════════════════════ */
+        .features {
+            background: var(--bg1);
+            padding: 110px 32px;
+        }
+        .features__inner { max-width: 960px; margin: 0 auto; }
+        .features__grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+            margin-top: 60px;
+            border-top: 1px solid rgba(200,160,40,.15);
+        }
+        .feat {
+            padding: 52px 36px;
+            border-right: 1px solid rgba(200,160,40,.1);
+            border-bottom: 1px solid rgba(200,160,40,.1);
+            position: relative;
+        }
+        .feat:nth-child(3n) { border-right: none; }
+        .feat__index {
+            font-size: 0.68rem;
+            letter-spacing: 0.4em;
+            color: var(--ygd);
+            margin-bottom: 28px;
+        }
+        .feat__title {
+            font-size: 1.05rem;
+            color: var(--yg);
+            margin-bottom: 16px;
+            letter-spacing: 0.04em;
+        }
+        .feat__desc {
+            font-size: 0.87rem;
+            color: var(--wgd);
+            line-height: 2;
+        }
+        @media (max-width: 640px) {
+            .features__grid { grid-template-columns:1fr; }
+            .feat { border-right:none; }
+            .feat:nth-child(3n) { border-right:none; }
+        }
+
+        /* ═══════════════════════════════════════
+           MESSAGE (editorial single col)
+        ═══════════════════════════════════════ */
+        .message {
+            background: var(--bg0);
+            padding: 120px 32px;
+        }
+        .message__inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .message__quote {
+            font-size: clamp(1.4rem, 3vw, 2.2rem);
+            font-style: italic;
+            line-height: 1.75;
+            margin: 48px 0;
+        }
+        .message__body {
+            font-size: 0.96rem;
+            color: var(--wgd);
+            line-height: 2.2;
+        }
+        .message__body p + p { margin-top: 1.4em; }
+        .message__sig {
+            margin-top: 52px;
+            padding-top: 28px;
+            border-top: 1px solid rgba(200,160,40,.15);
+            font-size: 0.85rem;
+            color: var(--wgd);
+            letter-spacing: 0.1em;
+        }
+
+        /* ═══════════════════════════════════════
+           SCHEDULE
+        ═══════════════════════════════════════ */
+        .schedule {
+            background: var(--bg2);
+            padding: 110px 32px;
+        }
+        .schedule__inner { max-width: 960px; margin: 0 auto; }
+        .schedule__sessions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 56px 0 48px;
+        }
+        .session {
+            padding: 44px 40px;
+            border: 1px solid rgba(184,114,96,.25);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .session::before {
+            content:'';
+            position:absolute; top:0; left:0; bottom:0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--rg), var(--yg));
+        }
+        .session__day {
+            font-size: 0.72rem;
+            letter-spacing: 0.42em;
+            text-transform: uppercase;
+            color: var(--rg);
+        }
+        .session__time {
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-top: 8px;
+        }
+        .session__dur {
+            font-size: 0.88rem;
+            color: var(--wgd);
+        }
+
+        .sch-table {
+            border: 1px solid rgba(200,160,40,.14);
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .sch-table tr {
+            border-bottom: 1px solid rgba(200,160,40,.08);
+        }
+        .sch-table tr:last-child { border-bottom: none; }
+        .sch-table td {
+            padding: 16px 28px;
+            font-size: 0.92rem;
+        }
+        .sch-table td:first-child {
+            color: var(--yg);
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+            width: 40%;
+        }
+        .sch-table td:last-child { color: var(--wgl); }
+
+        .notes {
+            margin-top: 24px;
+            font-size: 0.8rem;
+            color: var(--wgd);
+            line-height: 2.4;
+        }
+        @media (max-width: 640px) {
+            .schedule__sessions { grid-template-columns:1fr; }
+        }
+
+        /* ═══════════════════════════════════════
+           FINAL CTA
+        ═══════════════════════════════════════ */
+        .final {
+            background:
+                radial-gradient(ellipse 80% 70% at 50% 50%, rgba(22,16,4,.98) 0%, transparent 80%),
+                var(--bg0);
+            padding: 140px 32px;
+            text-align: center;
+            position: relative;
+        }
+        .final::before {
+            content:'';
+            position:absolute; inset:0;
+            background-image:
+                linear-gradient(rgba(200,160,40,.022) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(200,160,40,.022) 1px, transparent 1px);
+            background-size: 80px 80px;
+            pointer-events: none;
+        }
+        .final__inner { position:relative; max-width: 680px; margin: 0 auto; }
+        .final__title {
+            font-size: clamp(2rem, 5vw, 3.6rem);
+            font-weight: 700;
+            line-height: 1.35;
+            margin: 24px 0 20px;
+        }
+        .final__lead {
+            font-size: 0.98rem;
+            color: var(--wgd);
+            line-height: 2.1;
+            margin-bottom: 56px;
+        }
+        .final__note {
+            margin-top: 28px;
+            font-size: 0.78rem;
+            color: var(--ygd);
+            letter-spacing: 0.1em;
+        }
+
+        /* ═══════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════ */
+        footer {
+            padding: 36px 28px;
+            border-top: 1px solid rgba(200,160,40,.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .footer__logo {
+            font-size: 0.72rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--ygd);
+        }
+        .footer__copy {
+            font-size: 0.72rem;
+            color: var(--wgd);
+            letter-spacing: 0.08em;
+        }
+
+        /* ═══════════════════════════════════════
+           Responsive misc
+        ═══════════════════════════════════════ */
+        @media (max-width: 480px) {
+            .cta { padding: 20px 36px; font-size:1rem; width:100%; max-width:320px; text-align:center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section class="hero" id="top">
+    <div class="hero__inner">
+        <div class="hero__eyebrow">子どもの身体能力を、正しく伸ばす本格オンラインレッスン</div>
+
+        <h1 class="hero__catch g">
+            運動神経は<br>今しか<br>伸ばせない。
+        </h1>
+
+        <div class="hero__trinity trinity">
+            <div class="ring ring--r"></div>
+            <div class="ring ring--y"></div>
+            <div class="ring ring--w"></div>
+        </div>
+
+        <p class="hero__lead">
+            子どもの神経系が最も発達する「ゴールデンエイジ」は、<br>
+            一度しか訪れません。<br>
+            この大切な時期に正しいトレーニングを積むことで、<br>
+            足の速さ・身体の強さ・運動センスが確実に変わります。<br>
+            週２回・各30分。自宅から始める、本格フィジカル教育。
+        </p>
+
+        <a href="#apply" class="cta">無料相談・お申し込みはこちら</a>
+
+        <div class="hero__scroll">
+            <div class="hero__scroll-line"></div>
+            <span>Scroll</span>
+        </div>
+    </div>
+</section>
+
+
+<!-- ══════════════ MARQUEE ══════════════ -->
+<div class="marquee-wrap">
+    <div class="marquee-track">
+        <span>Flexibility</span><span class="dot">◆</span>
+        <span>Speed</span><span class="dot">◆</span>
+        <span>Power</span><span class="dot">◆</span>
+        <span>Coordination</span><span class="dot">◆</span>
+        <span>Agility</span><span class="dot">◆</span>
+        <span>Endurance</span><span class="dot">◆</span>
+        <span>Performance</span><span class="dot">◆</span>
+        <span>Online Lesson</span><span class="dot">◆</span>
+        <span>Flexibility</span><span class="dot">◆</span>
+        <span>Speed</span><span class="dot">◆</span>
+        <span>Power</span><span class="dot">◆</span>
+        <span>Coordination</span><span class="dot">◆</span>
+        <span>Agility</span><span class="dot">◆</span>
+        <span>Endurance</span><span class="dot">◆</span>
+        <span>Performance</span><span class="dot">◆</span>
+        <span>Online Lesson</span><span class="dot">◆</span>
+    </div>
+</div>
+
+
+<!-- ══════════════ PHILOSOPHY ══════════════ -->
+<div class="philosophy">
+    <div class="philosophy__inner">
+        <div class="philosophy__left">
+            <p class="lbl">— Philosophy</p>
+            <div class="philosophy__num g">01</div>
+            <h2 class="philosophy__title">
+                「うちの子、運動が苦手で…」<br>
+                それは才能ではなく、<br>
+                <span class="g">正しい刺激が<br>足りていないだけです。</span>
+            </h2>
+            <div class="rule rule--short" style="margin-left:0; margin-top:32px;"></div>
+        </div>
+        <div class="philosophy__right">
+            <div class="philosophy__body">
+                <p>
+                    運動神経は「生まれつき」ではありません。適切な年齢に、適切なトレーニングを積んだかどうか——それだけの差です。
+                </p>
+                <p>
+                    スポーツ科学が証明する「ゴールデンエイジ理論」によれば、神経系の発達は小学生の時期に著しく加速します。この時期に柔軟性・スピード・パワー・協調性を正しく鍛えることで、身体能力の土台が一生涯変わります。
+                </p>
+                <p>
+                    「もっと早く始めていれば」と後悔する前に、今すぐ動いてください。お子さまの身体は、必ず応えます。
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="rule"></div>
+
+
+<!-- ══════════════ STATS ══════════════ -->
+<div class="stats">
+    <div class="stats__inner">
+        <p class="lbl">— Program at a Glance</p>
+        <div class="stats__grid">
+            <div class="stat">
+                <div class="stat__num g">72<span class="stat__unit">回</span></div>
+                <div class="stat__label">年間72回の継続的な刺激で<br>身体が確実に変わる</div>
+            </div>
+            <div class="stat">
+                <div class="stat__num g">30<span class="stat__unit">分</span></div>
+                <div class="stat__label">集中できる30分設計<br>子どもが飽きずに続けられる</div>
+            </div>
+            <div class="stat">
+                <div class="stat__num g">2<span class="stat__unit">回</span></div>
+                <div class="stat__label">週2回が習慣化の黄金ルール<br>多忙な家庭でも無理なく続く</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="rule"></div>
+
+
+<!-- ══════════════ PAIN POINTS ══════════════ -->
+<div class="pain">
+    <div class="pain__inner">
+        <p class="lbl">— Common Challenges</p>
+        <h2 style="font-size:clamp(1.7rem,3.5vw,2.6rem); font-weight:700; line-height:1.5; margin:18px 0 0;">
+            親御さんの<br>
+            <span class="g">こんな悩み、ありませんか。</span>
+        </h2>
+
+        <div class="pain__grid">
+            <div class="pain__item">
+                <span class="pain__dash">—</span>
+                <p class="pain__q">運動会でいつもビリに近い…見ていてつらい</p>
+            </div>
+            <div class="pain__item">
+                <span class="pain__dash">—</span>
+                <p class="pain__q">チームの中で当たり負けして、試合に出してもらえない</p>
+            </div>
+            <div class="pain__item">
+                <span class="pain__dash">—</span>
+                <p class="pain__q">転びやすく、ケガが多くて心配</p>
+            </div>
+            <div class="pain__item">
+                <span class="pain__dash">—</span>
+                <p class="pain__q">本人はやる気があるのに、身体がついてこない</p>
+            </div>
+            <div class="pain__item">
+                <span class="pain__dash">—</span>
+                <p class="pain__q">塾・部活が忙しくて、専門のトレーニングに通わせる余裕がない</p>
+            </div>
+        </div>
+
+        <p class="pain__close">
+            これらはすべて、「正しいフィジカルトレーニング」で解決できます。<br>
+            送迎なし、週２回30分。専門家が設計したプログラムを自宅で完結。<br>
+            忙しい毎日の中でも、お子さまを着実に変えていきます。
+        </p>
+    </div>
+</div>
+
+<div class="rule"></div>
+
+
+<!-- ══════════════ FEATURES ══════════════ -->
+<div class="features">
+    <div class="features__inner">
+        <p class="lbl">— Online Advantage</p>
+        <h2 style="font-size:clamp(1.7rem,3.5vw,2.6rem); font-weight:700; line-height:1.5; margin:18px 0 0;">
+            送迎なし・時間の無駄なし。<br>
+            <span class="g">忙しい親御さんだからこそ<br>選んでほしい理由。</span>
+        </h2>
+
+        <div class="features__grid">
+            <div class="feat">
+                <div class="feat__index">01 / No Commute</div>
+                <div class="feat__title">送迎ゼロ、交通費ゼロ</div>
+                <div class="feat__desc">お子さまひとりで参加OK。送迎の手間・交通費・移動時間がすべてなくなります。共働きのご家庭でも、無理なく続けられます。</div>
+            </div>
+            <div class="feat">
+                <div class="feat__index">02 / Fits Your Life</div>
+                <div class="feat__title">部活・塾と完全両立</div>
+                <div class="feat__desc">週２回・各30分という絶妙な設計。塾・部活・他の習い事と組み合わせやすく、「辞めた」を起こさない継続できる仕組みです。</div>
+            </div>
+            <div class="feat">
+                <div class="feat__index">03 / Archive</div>
+                <div class="feat__title">急な予定もアーカイブで安心</div>
+                <div class="feat__desc">欠席してもアーカイブ配信で取り返せます。何度でも見直せるので、お子さまのペースで着実に身体に動きが染み込んでいきます。</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="rule"></div>
+
+
+<!-- ══════════════ MESSAGE ══════════════ -->
+<div class="message">
+    <div class="message__inner">
+        <p class="lbl">— Message</p>
+
+        <blockquote class="message__quote g">
+            「もっと早く始めれば良かった」<br>
+            そう言わせたくない。
+        </blockquote>
+
+        <div class="message__body">
+            <p>
+                子どもの運動能力は、適切な時期に正しい刺激を与えれば、必ず伸びます。しかし、その「適切な時期」には限りがあります。
+            </p>
+            <p>
+                このレッスンを立ち上げたのは、ひとりでも多くのお子さまに後悔のない成長の機会を届けたいという想いからです。専門的なフィジカルトレーニングは、これまで特定のアスリートだけのものでした。それをオンラインで、すべての家庭に届けたい。
+            </p>
+            <p>
+                週２回の積み重ねが、お子さまの一生の財産になると、私は確信しています。
+            </p>
+        </div>
+
+        <div class="message__sig">
+            <div class="trinity" style="justify-content:flex-start; margin-bottom:16px;">
+                <div class="ring ring--r"></div>
+                <div class="ring ring--y"></div>
+                <div class="ring ring--w"></div>
+            </div>
+            Online Physical Lesson — Instructor
+        </div>
+    </div>
+</div>
+
+<div class="rule"></div>
+
+
+<!-- ══════════════ SCHEDULE ══════════════ -->
+<div class="schedule">
+    <div class="schedule__inner">
+        <p class="lbl">— Schedule &amp; Details</p>
+        <h2 style="font-size:clamp(1.7rem,3.5vw,2.6rem); font-weight:700; line-height:1.5; margin:18px 0 0;">
+            <span class="g">いつ・どんな形で</span>参加するの？<br>よくある疑問にお答えします。
+        </h2>
+
+        <div class="schedule__sessions">
+            <div class="session">
+                <div class="session__day">Tuesday / 火曜日</div>
+                <div class="session__time g">19:00</div>
+                <div class="session__dur">〜 19:30（30分間）</div>
+            </div>
+            <div class="session">
+                <div class="session__day">Saturday / 土曜日</div>
+                <div class="session__time g">9:00</div>
+                <div class="session__dur">〜 9:30（30分間）</div>
+            </div>
+        </div>
+
+        <table class="sch-table">
+            <tr>
+                <td>月間開催回数</td>
+                <td>月６回（最終週はお休み）</td>
+            </tr>
+            <tr>
+                <td>年間開催回数</td>
+                <td>年間 72 回</td>
+            </tr>
+            <tr>
+                <td>対象</td>
+                <td>小学１年生〜高校生</td>
+            </tr>
+            <tr>
+                <td>定員</td>
+                <td>なし</td>
+            </tr>
+            <tr>
+                <td>開催方法</td>
+                <td>ライブ動画配信（アーカイブ配信あり）</td>
+            </tr>
+        </table>
+
+        <p class="notes">
+            ※ 年間スケジュールはお申し込み後に詳細をお送りします<br>
+            ※ 今後、開催曜日・時間帯を追加予定（ご要望はお気軽にご相談ください）<br>
+            ※ 急な欠席はアーカイブ配信でフォロー。安心してご参加ください
+        </p>
+    </div>
+</div>
+
+<div class="rule"></div>
+
+
+<!-- ══════════════ FINAL CTA ══════════════ -->
+<div class="final" id="apply">
+    <div class="final__inner">
+        <p class="lbl">— Take the First Step</p>
+        <h2 class="final__title">
+            <span class="g">お子さまの可能性に、<br>今すぐ投資してください。</span>
+        </h2>
+        <p class="final__lead">
+            運動神経の発達に「やり直し」はありません。<br>
+            今この瞬間が、お子さまにとって最大のチャンスです。<br>
+            まずは無料相談から。<br>
+            ご不安な点は何でもお気軽にご相談ください。
+        </p>
+
+        <a href="#" class="cta">無料相談・お申し込みはこちら</a>
+
+        <p class="final__note">※ 無料相談後にご検討いただけます。費用は一切かかりません。</p>
+
+        <div class="trinity" style="margin-top:64px;">
+            <div class="ring ring--r"></div>
+            <div class="ring ring--y"></div>
+            <div class="ring ring--w"></div>
+        </div>
+    </div>
+</div>
+
+<div class="rule"></div>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+    <div class="footer__logo">Online Physical Lesson</div>
+    <div class="footer__copy">© 2025 All Rights Reserved.</div>
+</footer>
+
+</body>
+</html>

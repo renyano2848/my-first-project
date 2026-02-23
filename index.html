@@ -591,6 +591,53 @@
         @media (max-width: 480px) {
             .cta { padding: 20px 36px; font-size:1rem; width:100%; max-width:320px; text-align:center; }
         }
+
+        /* ═══════════════════════════════════════
+           MOBILE（～600px）
+        ═══════════════════════════════════════ */
+        @media (max-width: 600px) {
+
+            /* セクション余白を縮小 */
+            .hero    { padding: 80px 20px 60px; }
+            .philosophy { padding: 72px 20px; }
+            .stats   { padding: 64px 20px; }
+            .pain    { padding: 72px 20px; }
+            .features { padding: 72px 20px; }
+            .message { padding: 80px 20px; }
+            .schedule { padding: 72px 20px; }
+            .final   { padding: 90px 20px; }
+
+            /* ヒーロー見出しを小さく */
+            .hero__catch { font-size: 2.6rem; line-height: 1.25; }
+
+            /* ヒーローリード・本文の <br> を非表示にして自然改行 */
+            .hero__lead br,
+            .pain__close br,
+            .final__lead br,
+            .message__body br { display: none; }
+
+            /* セクション見出し <br> を非表示 */
+            .philosophy__title br,
+            .pain h2 br,
+            .features h2 br,
+            .final__title br { display: none; }
+
+            /* メッセージ引用の文字サイズ */
+            .message__quote { font-size: 1.2rem; }
+
+            /* スケジュール時刻 */
+            .session__time { font-size: 2.2rem; }
+
+            /* テーブルセル余白 */
+            .sch-table td { padding: 14px 14px; font-size: 0.85rem; }
+
+            /* リード文フォントサイズ */
+            .hero__lead { font-size: 0.9rem; line-height: 1.9; }
+            .final__lead { font-size: 0.9rem; }
+
+            /* Philosophy 番号を小さく */
+            .philosophy__num { font-size: 4rem; }
+        }
     </style>
 </head>
 <body>
@@ -611,11 +658,7 @@
         </div>
 
         <p class="hero__lead">
-            子どもの神経系が最も発達する「ゴールデンエイジ」は、<br>
-            一度しか訪れません。<br>
-            この大切な時期に正しいトレーニングを積むことで、<br>
-            足の速さ・身体の強さ・運動センスが確実に変わります。<br>
-            週２回・各30分。自宅から始める、本格フィジカル教育。
+            子どもの神経系が最も発達する「ゴールデンエイジ」は、一度しか訪れません。この大切な時期に正しいトレーニングを積むことで、足の速さ・身体の強さ・運動センスが確実に変わります。週２回・各30分。自宅から始める、本格フィジカル教育。
         </p>
 
         <a href="#apply" class="cta">無料相談・お申し込みはこちら</a>
@@ -740,9 +783,7 @@
         </div>
 
         <p class="pain__close">
-            これらはすべて、「正しいフィジカルトレーニング」で解決できます。<br>
-            送迎なし、週２回30分。専門家が設計したプログラムを自宅で完結。<br>
-            忙しい毎日の中でも、お子さまを着実に変えていきます。
+            これらはすべて、「正しいフィジカルトレーニング」で解決できます。送迎なし、週２回30分。専門家が設計したプログラムを自宅で完結。忙しい毎日の中でも、お子さまを着実に変えていきます。
         </p>
     </div>
 </div>
@@ -881,10 +922,7 @@
             <span class="g">お子さまの可能性に、<br>今すぐ投資してください。</span>
         </h2>
         <p class="final__lead">
-            運動神経の発達に「やり直し」はありません。<br>
-            今この瞬間が、お子さまにとって最大のチャンスです。<br>
-            まずは無料相談から。<br>
-            ご不安な点は何でもお気軽にご相談ください。
+            運動神経の発達に「やり直し」はありません。今この瞬間が、お子さまにとって最大のチャンスです。まずは無料相談から。ご不安な点は何でもお気軽にご相談ください。
         </p>
 
         <a href="#" class="cta">無料相談・お申し込みはこちら</a>

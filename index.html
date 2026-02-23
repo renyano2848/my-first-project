@@ -6,19 +6,21 @@
     <title>子どもの運動神経は、今しか伸ばせない。 | オンラインフィジカルレッスン</title>
     <style>
         :root {
-            --yg:  #C8A028;   /* yellow gold */
-            --ygl: #E2C050;   /* yellow gold light */
-            --ygd: #7A600C;   /* yellow gold dark */
-            --wg:  #CECDCA;   /* white gold */
-            --wgl: #E8E6E0;   /* white gold light */
-            --wgd: #8A8880;   /* white gold dark */
-            --rg:  #B87260;   /* rose gold */
-            --rgl: #D49080;   /* rose gold light */
-            --rgd: #804830;   /* rose gold dark */
-            --bg0: #060508;   /* deepest */
-            --bg1: #0B090F;   /* dark */
-            --bg2: #100E16;   /* mid */
-            --tx:  #E8E3D4;   /* main text */
+            --yg:  #D4A843;   /* yellow gold — やや暖色寄りに */
+            --ygl: #EAC86A;   /* yellow gold light */
+            --ygd: #8A6A18;   /* yellow gold dark */
+            --wg:  #D8D4CC;   /* white gold */
+            --wgl: #EDE9E2;   /* white gold light */
+            --wgd: #9A9690;   /* white gold dark */
+            --rg:  #C87868;   /* rose gold — 少し明るく */
+            --rgl: #E09888;   /* rose gold light */
+            --rgd: #8A5038;   /* rose gold dark */
+            --bg0: #0E0B12;   /* deepest — 純黒より柔らかく */
+            --bg1: #141018;   /* dark */
+            --bg2: #1A1622;   /* mid */
+            --tx:  #EDE8DB;   /* main text */
+            --radius: 14px;   /* 統一角丸 */
+            --radius-sm: 8px;
         }
 
         *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -78,24 +80,26 @@
             text-decoration: none;
             cursor: pointer;
             border: none;
+            border-radius: 100px;
             background: linear-gradient(110deg, var(--rgd) 0%, var(--yg) 50%, var(--wgl) 100%);
             color: #06050A;
             transition: transform .3s, box-shadow .3s;
-            box-shadow: 0 0 36px rgba(200,160,40,.3), 0 6px 24px rgba(0,0,0,.5);
+            box-shadow: 0 0 36px rgba(212,168,67,.35), 0 8px 28px rgba(0,0,0,.45);
         }
         .cta:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 56px rgba(200,160,40,.55), 0 10px 32px rgba(0,0,0,.6);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 0 56px rgba(212,168,67,.6), 0 12px 36px rgba(0,0,0,.5);
         }
         .cta--outline {
             background: transparent;
-            border: 1px solid var(--yg);
+            border: 1.5px solid var(--yg);
             color: var(--yg);
             box-shadow: none;
+            border-radius: 100px;
         }
         .cta--outline:hover {
-            background: rgba(200,160,40,.08);
-            box-shadow: 0 0 30px rgba(200,160,40,.2);
+            background: rgba(212,168,67,.1);
+            box-shadow: 0 0 30px rgba(212,168,67,.25);
         }
 
         /* ═══════════════════════════════════════
@@ -128,13 +132,15 @@
 
         .hero__eyebrow {
             font-size: 0.7rem;
-            letter-spacing: 0.55em;
+            letter-spacing: 0.45em;
             text-transform: uppercase;
             color: var(--yg);
-            border: 1px solid rgba(200,160,40,.35);
+            border: 1px solid rgba(212,168,67,.4);
+            border-radius: 100px;
             display: inline-block;
-            padding: 7px 28px;
+            padding: 8px 28px;
             margin-bottom: 52px;
+            background: rgba(212,168,67,.06);
         }
 
         .hero__catch {
@@ -271,21 +277,25 @@
         .stats__grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 2px;
+            gap: 16px;
             margin-top: 60px;
-            border: 1px solid rgba(200,160,40,.12);
         }
         .stat {
             padding: 52px 36px;
             text-align: center;
-            border-right: 1px solid rgba(200,160,40,.12);
+            border: 1px solid rgba(212,168,67,.15);
+            border-radius: var(--radius);
+            background: rgba(212,168,67,.03);
             position: relative;
+            box-shadow: 0 4px 24px rgba(0,0,0,.2);
+            transition: transform .3s, box-shadow .3s;
         }
-        .stat:last-child { border-right: none; }
+        .stat:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(212,168,67,.12); }
         .stat::before {
             content:'';
             position:absolute; top:0; left:0; right:0;
-            height: 2px;
+            height: 3px;
+            border-radius: var(--radius) var(--radius) 0 0;
             background: linear-gradient(90deg, var(--rg), var(--yg), var(--wg));
         }
         .stat__num {
@@ -328,16 +338,19 @@
         }
         .pain__item {
             padding: 28px 32px;
-            border: 1px solid rgba(200,160,40,.1);
-            background: rgba(200,160,40,.02);
+            border: 1px solid rgba(212,168,67,.12);
+            background: rgba(212,168,67,.03);
+            border-radius: var(--radius);
             display: flex;
             align-items: flex-start;
             gap: 18px;
-            transition: border-color .3s, background .3s;
+            transition: border-color .3s, background .3s, box-shadow .3s, transform .3s;
         }
         .pain__item:hover {
-            border-color: rgba(200,160,40,.28);
-            background: rgba(200,160,40,.05);
+            border-color: rgba(212,168,67,.3);
+            background: rgba(212,168,67,.07);
+            box-shadow: 0 4px 24px rgba(212,168,67,.1);
+            transform: translateY(-2px);
         }
         .pain__item:last-child:nth-child(odd) {
             grid-column: 1 / -1;
@@ -385,10 +398,12 @@
         }
         .feat {
             padding: 52px 36px;
-            border-right: 1px solid rgba(200,160,40,.1);
-            border-bottom: 1px solid rgba(200,160,40,.1);
+            border-right: 1px solid rgba(212,168,67,.1);
+            border-bottom: 1px solid rgba(212,168,67,.1);
             position: relative;
+            transition: background .3s;
         }
+        .feat:hover { background: rgba(212,168,67,.03); }
         .feat:nth-child(3n) { border-right: none; }
         .feat__index {
             font-size: 0.68rem;
@@ -461,11 +476,14 @@
         }
         .session {
             padding: 44px 40px;
-            border: 1px solid rgba(184,114,96,.25);
+            border: 1px solid rgba(200,120,104,.25);
+            border-radius: var(--radius);
             position: relative;
             display: flex;
             flex-direction: column;
             gap: 6px;
+            background: rgba(200,120,104,.04);
+            box-shadow: 0 4px 24px rgba(0,0,0,.2);
         }
         .session::before {
             content:'';
@@ -519,6 +537,140 @@
         }
         @media (max-width: 640px) {
             .schedule__sessions { grid-template-columns:1fr; }
+        }
+
+        /* ═══════════════════════════════════════
+           PRICING
+        ═══════════════════════════════════════ */
+        .pricing {
+            background: var(--bg1);
+            padding: 120px 32px;
+            text-align: center;
+        }
+        .pricing__inner { max-width: 680px; margin: 0 auto; }
+
+        .pricing__card {
+            margin: 56px auto 0;
+            padding: 56px 48px 48px;
+            border: 1px solid rgba(212,168,67,.3);
+            border-radius: 24px;
+            background: linear-gradient(160deg, rgba(212,168,67,.07) 0%, rgba(200,120,104,.04) 100%);
+            box-shadow: 0 0 60px rgba(212,168,67,.12), 0 16px 48px rgba(0,0,0,.4);
+            position: relative;
+            overflow: hidden;
+        }
+        .pricing__card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--rg), var(--yg), var(--wg));
+        }
+
+        .pricing__badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--bg0);
+            background: linear-gradient(110deg, var(--rg), var(--yg));
+            padding: 6px 24px;
+            border-radius: 100px;
+            margin-bottom: 36px;
+        }
+
+        .pricing__amount {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+        .pricing__currency {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--yg);
+            padding-bottom: 8px;
+        }
+        .pricing__num {
+            font-size: clamp(4rem, 12vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(115deg, var(--rg) 0%, var(--yg) 50%, var(--wg) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        .pricing__per {
+            font-size: 1rem;
+            color: var(--wgd);
+            padding-bottom: 12px;
+        }
+
+        .pricing__tax {
+            font-size: 0.78rem;
+            color: var(--wgd);
+            margin-bottom: 36px;
+            letter-spacing: 0.06em;
+        }
+
+        .pricing__list {
+            list-style: none;
+            text-align: left;
+            margin: 32px 0 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .pricing__list li {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.98rem;
+            color: var(--wgl);
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            background: rgba(255,255,255,.03);
+        }
+        .pricing__list li::before {
+            content: '✓';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rg), var(--yg));
+            color: var(--bg0);
+            font-size: 0.75rem;
+            font-weight: 900;
+            flex-shrink: 0;
+        }
+
+        .pricing__cta-wrap {
+            margin-top: 8px;
+        }
+        .pricing__sub {
+            margin-top: 18px;
+            font-size: 0.78rem;
+            color: var(--ygd);
+            letter-spacing: 0.08em;
+        }
+
+        .pricing__value {
+            margin-top: 40px;
+            padding: 20px 28px;
+            border-radius: var(--radius);
+            background: rgba(212,168,67,.06);
+            border: 1px solid rgba(212,168,67,.15);
+            font-size: 0.92rem;
+            color: var(--wgd);
+            line-height: 1.9;
+        }
+
+        @media (max-width: 600px) {
+            .pricing__card { padding: 40px 24px 36px; }
+            .pricing__list li { font-size: 0.9rem; }
         }
 
         /* ═══════════════════════════════════════
@@ -907,6 +1059,49 @@
             ※ 年間スケジュールはお申し込み後に詳細をお送りします<br>
             ※ 今後、開催曜日・時間帯を追加予定（ご要望はお気軽にご相談ください）<br>
             ※ 急な欠席はアーカイブ配信でフォロー。安心してご参加ください
+        </p>
+    </div>
+</div>
+
+<div class="rule"></div>
+
+
+<!-- ══════════════ PRICING ══════════════ -->
+<div class="pricing">
+    <div class="pricing__inner">
+        <p class="lbl">— Pricing</p>
+        <h2 style="font-size:clamp(1.7rem,3.5vw,2.6rem); font-weight:700; line-height:1.5; margin:18px 0 0;">
+            シンプルな<span class="g">１プランのみ。</span>
+        </h2>
+
+        <div class="pricing__card">
+            <div class="pricing__badge">月額プラン</div>
+
+            <div class="pricing__amount">
+                <span class="pricing__currency">¥</span>
+                <span class="pricing__num">3,300</span>
+            </div>
+            <p class="pricing__tax">/ 月（税込）</p>
+
+            <div class="rule rule--short"></div>
+
+            <ul class="pricing__list">
+                <li>ライブレッスン 週２回・各30分</li>
+                <li>アーカイブ配信（何度でも見直し可）</li>
+                <li>年間72回のプログラム</li>
+                <li>対象：小学１年生〜高校生</li>
+                <li>入会金・設備費・解約金なし</li>
+            </ul>
+
+            <div class="pricing__cta-wrap">
+                <a href="#apply" class="cta">今すぐ申し込む</a>
+                <p class="pricing__sub">まずは無料相談からどうぞ。費用は一切かかりません。</p>
+            </div>
+        </div>
+
+        <p class="pricing__value">
+            1レッスンあたり <strong class="g">約46円</strong>。<br>
+            習い事の送迎コスト・交通費ゼロで、<br>お子さまの身体に本格的な投資ができます。
         </p>
     </div>
 </div>

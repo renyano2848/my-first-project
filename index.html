@@ -314,7 +314,7 @@
         ═══════════════════════════════════════ */
         .philosophy {
             background: var(--bg1);
-            padding: 120px 32px;
+            padding: 80px 32px;
             color: var(--tx);
         }
         .philosophy__inner {
@@ -327,18 +327,19 @@
         }
         .philosophy__left {}
         .philosophy__num {
-            font-size: 6rem;
-            font-weight: 900;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4.5rem;
+            font-weight: 300;
             line-height: 1;
-            margin-bottom: 28px;
+            margin-bottom: 16px;
             color: var(--tg);
-            opacity: 0.15;
+            opacity: 0.35;
         }
         .philosophy__title {
-            font-size: clamp(1.6rem, 3vw, 2.3rem);
+            font-size: clamp(1.4rem, 2.8vw, 2rem);
             line-height: 1.55;
             font-weight: 700;
-            margin: 16px 0 32px;
+            margin: 12px 0 24px;
             color: var(--tx);
         }
         .philosophy__right {
@@ -360,7 +361,7 @@
         ═══════════════════════════════════════ */
         .stats {
             background: var(--bg2);
-            padding: 100px 32px;
+            padding: 64px 32px;
         }
         .stats__inner {
             max-width: 960px;
@@ -373,7 +374,7 @@
             margin-top: 56px;
         }
         .stat {
-            padding: 52px 32px 44px;
+            padding: 36px 24px 32px;
             text-align: center;
             border: 1px solid #e8e0d0;
             border-radius: var(--radius);
@@ -417,7 +418,7 @@
         /* メインの数字 */
         .stat__figure {
             font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: clamp(5rem, 10vw, 8rem);
+            font-size: clamp(3.8rem, 7vw, 5.5rem);
             font-weight: 300;
             line-height: 1;
             color: var(--tg);
@@ -427,21 +428,21 @@
         /* 単位 */
         .stat__unit {
             font-family: 'Noto Sans JP', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--tgd);
-            margin-top: 10px;
-            margin-left: 4px;
+            margin-top: 8px;
+            margin-left: 3px;
             line-height: 1;
         }
 
         /* 区切り線 */
         .stat__divider {
-            width: 28px;
-            height: 2px;
+            width: 24px;
+            height: 1px;
             background: var(--tg);
-            margin: 20px auto 18px;
-            opacity: .7;
+            margin: 14px auto 12px;
+            opacity: .6;
         }
 
         /* ラベルテキスト */
@@ -463,7 +464,7 @@
         ═══════════════════════════════════════ */
         .pain {
             background: var(--bg1);
-            padding: 110px 32px;
+            padding: 72px 32px;
             color: var(--tx);
         }
         .pain__inner { max-width: 960px; margin: 0 auto; }
@@ -521,7 +522,7 @@
         ═══════════════════════════════════════ */
         .features {
             background: var(--bg2);
-            padding: 110px 32px;
+            padding: 72px 32px;
             color: var(--tx);
         }
         .features__inner { max-width: 960px; margin: 0 auto; }
@@ -532,7 +533,7 @@
             margin-top: 56px;
         }
         .feat {
-            padding: 44px 32px;
+            padding: 32px 28px;
             border: 1px solid #e8e0d0;
             border-radius: var(--radius);
             background: #ffffff;
@@ -578,17 +579,17 @@
         ═══════════════════════════════════════ */
         .message {
             background: var(--bdk);
-            padding: 120px 32px;
+            padding: 80px 32px;
         }
         .message__inner {
             max-width: 800px;
             margin: 0 auto;
         }
         .message__quote {
-            font-size: clamp(1.4rem, 3vw, 2.2rem);
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
             font-style: italic;
-            line-height: 1.75;
-            margin: 48px 0;
+            line-height: 1.7;
+            margin: 32px 0;
         }
         .message__body {
             font-size: 0.96rem;
@@ -610,18 +611,18 @@
         ═══════════════════════════════════════ */
         .schedule {
             background: var(--bg1);
-            padding: 110px 32px;
+            padding: 72px 32px;
             color: var(--tx);
         }
         .schedule__inner { max-width: 960px; margin: 0 auto; }
         .schedule__sessions {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin: 56px 0 48px;
+            gap: 16px;
+            margin: 36px 0 32px;
         }
         .session {
-            padding: 40px 36px;
+            padding: 28px 32px;
             border: 1px solid #e8e0d0;
             border-radius: var(--radius);
             position: relative;
@@ -649,11 +650,13 @@
             color: var(--tg);
         }
         .session__time {
-            font-size: 3rem;
-            font-weight: 900;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 3.2rem;
+            font-weight: 300;
             line-height: 1;
-            margin-top: 8px;
-            color: var(--tx);
+            margin-top: 6px;
+            color: var(--tg);
+            letter-spacing: 0.02em;
         }
         .session__dur {
             font-size: 0.88rem;
@@ -700,15 +703,15 @@
         ═══════════════════════════════════════ */
         .pricing {
             background: var(--bg2);
-            padding: 120px 32px;
+            padding: 72px 32px;
             text-align: center;
             color: var(--tx);
         }
         .pricing__inner { max-width: 680px; margin: 0 auto; }
 
         .pricing__card {
-            margin: 56px auto 0;
-            padding: 56px 48px 48px;
+            margin: 36px auto 0;
+            padding: 40px 40px 36px;
             border: 1px solid #e8e0d0;
             border-radius: 16px;
             background: #ffffff;
@@ -745,21 +748,23 @@
             line-height: 1;
         }
         .pricing__currency {
-            font-size: 2rem;
-            font-weight: 700;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 300;
             color: var(--tg);
             padding-bottom: 8px;
         }
         .pricing__num {
-            font-size: clamp(4rem, 12vw, 6rem);
-            font-weight: 900;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.5rem, 10vw, 5.5rem);
+            font-weight: 300;
             color: var(--tg);
-            letter-spacing: -0.02em;
+            letter-spacing: 0.02em;
         }
         .pricing__per {
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--txl);
-            padding-bottom: 12px;
+            padding-bottom: 10px;
         }
 
         .pricing__tax {
@@ -834,7 +839,7 @@
         ═══════════════════════════════════════ */
         .final {
             background: var(--bdk);
-            padding: 140px 32px;
+            padding: 88px 32px;
             text-align: center;
             position: relative;
         }
@@ -905,14 +910,15 @@
         @media (max-width: 600px) {
 
             /* セクション余白を縮小 */
-            .hero    { padding: 80px 20px 60px; }
-            .philosophy { padding: 72px 20px; }
-            .stats   { padding: 64px 20px; }
-            .pain    { padding: 72px 20px; }
-            .features { padding: 72px 20px; }
-            .message { padding: 80px 20px; }
-            .schedule { padding: 72px 20px; }
-            .final   { padding: 90px 20px; }
+            .hero    { padding: 72px 20px 52px; }
+            .philosophy { padding: 56px 20px; }
+            .stats   { padding: 48px 20px; }
+            .pain    { padding: 56px 20px; }
+            .features { padding: 56px 20px; }
+            .message { padding: 60px 20px; }
+            .schedule { padding: 56px 20px; }
+            .pricing  { padding: 56px 20px; }
+            .final   { padding: 64px 20px; }
 
             /* ヒーロー見出しを小さく */
             .hero__catch { font-size: 2.6rem; line-height: 1.25; }

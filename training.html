@@ -19,7 +19,6 @@
             position: fixed; inset: 0;
             display: flex; flex-direction: column;
             align-items: center; justify-content: center;
-            transition: background-color .12s;
             background: #111;
         }
         .color-name {
@@ -287,12 +286,15 @@
         }, 900);
     }
 
+    let nextTime = 0;
+
     function beginTraining() {
         document.getElementById('settings').classList.add('hidden');
         document.getElementById('stopBtn').style.display = 'block';
-        colorIndex = 0;
+        running = true;
         showColor();
-        interval = setInterval(showColor, speed);
+        nextTime = performance.now() + speed;
+        loop();
     }
 
     function showColor() {
@@ -307,9 +309,22 @@
         s.style.backgroundColor = c.bg;
     }
     let lastColor = '';
+    let rafId = null;
+    let running = false;
+
+    function loop() {
+        if (!running) return;
+        const now = performance.now();
+        if (now >= nextTime) {
+            showColor();
+            nextTime += speed;
+        }
+        rafId = requestAnimationFrame(loop);
+    }
 
     function stopTraining() {
-        clearInterval(interval);
+        running = false;
+        cancelAnimationFrame(rafId);
         document.getElementById('screen').style.backgroundColor = '#111';
         document.getElementById('stopBtn').style.display = 'none';
         document.getElementById('settings').classList.remove('hidden');

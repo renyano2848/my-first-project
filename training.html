@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>反応速度トレーニング | Reaction Pod</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+
+        :root {
+            --dark: #0a0a0f;
+            --dark2: #12121a;
+            --dark3: #1a1a28;
+            --card: #1e1e2e;
+            --border: rgba(255,255,255,.08);
+            --txt: #f0f0f0;
+            --sub: #888;
+            --gold: #F5C842;
+        }
+
+        html, body {
+            height: 100%;
+            background: var(--dark);
+            color: var(--txt);
+            font-family: 'Noto Sans JP', sans-serif;
+            overflow: hidden;
+        }
+
+        /* ── SCREENS ── */
+        .screen {
+            position: fixed; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 24px 20px;
+            transition: opacity .3s, transform .3s;
+        }
+        .screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(.97);
+        }
+
+        /* ══════════════ MENU SCREEN ══════════════ */
+        #menu {
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(80,60,180,.18) 0%, transparent 70%), var(--dark);
+            gap: 0;
+        }
+        .menu__logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: .5em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        .menu__title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(2.2rem, 8vw, 3.8rem);
+            font-weight: 900;
+            line-height: 1.1;
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .menu__title span {
+            background: linear-gradient(120deg, #7C3AED, #3B82F6, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .menu__sub {
+            font-size: .88rem;
+            color: var(--sub);
+            margin-bottom: 36px;
+            text-align: center;
+        }
+
+        .section-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: .58rem;
+            font-weight: 700;
+            letter-spacing: .4em;
+            text-transform: uppercase;
+            color: var(--sub);
+            margin-bottom: 10px;
+            align-self: flex-start;
+            width: 100%;
+            max-width: 360px;
+        }
+
+        /* モード選択 */
+        .mode-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+            max-width: 360px;
+            margin-bottom: 28px;
+        }
+        .mode-btn {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color .2s, transform .15s;
+            user-select: none;
+        }
+        .mode-btn.active {
+            border-color: #7C3AED;
+            background: rgba(124,58,237,.15);
+        }
+        .mode-btn:active { transform: scale(.95); }
+        .mode-btn__icon { font-size: 1.6rem; margin-bottom: 4px; }
+        .mode-btn__name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--txt);
+        }
+        .mode-btn__desc { font-size: .62rem; color: var(--sub); margin-top: 2px; }
+
+        /* 難易度 */
+        .diff-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            width: 100%;
+            max-width: 360px;
+            margin-bottom: 32px;
+        }
+        .diff-btn {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color .2s, transform .15s;
+            user-select: none;
+        }
+        .diff-btn.active { border-color: var(--gold); background: rgba(245,200,66,.1); }
+        .diff-btn:active { transform: scale(.95); }
+        .diff-btn__name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: .68rem;
+            font-weight: 700;
+            color: var(--txt);
+        }
+        .diff-btn__ms { font-size: .58rem; color: var(--sub); }
+
+        /* スタートボタン */
+        .start-btn {
+            width: 100%;
+            max-width: 360px;
+            padding: 18px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #7C3AED, #3B82F6);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(124,58,237,.4);
+            transition: transform .15s, box-shadow .15s;
+        }
+        .start-btn:active { transform: scale(.97); box-shadow: 0 4px 16px rgba(124,58,237,.3); }
+
+        /* ══════════════ COUNTDOWN SCREEN ══════════════ */
+        #countdown { background: var(--dark); }
+        .countdown__num {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(5rem, 25vw, 10rem);
+            font-weight: 900;
+            background: linear-gradient(120deg, #7C3AED, #3B82F6, #06B6D4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%,100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+        .countdown__text { font-size: .9rem; color: var(--sub); margin-top: 12px; }
+
+        /* ══════════════ GAME SCREEN ══════════════ */
+        #game {
+            background: var(--dark);
+            justify-content: space-between;
+            padding: 16px 20px 24px;
+        }
+
+        /* ヘッダー */
+        .game-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 480px;
+        }
+        .stat-box {
+            text-align: center;
+        }
+        .stat-box__val {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--txt);
+            line-height: 1;
+        }
+        .stat-box__label {
+            font-size: .6rem;
+            color: var(--sub);
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* タイマーバー */
+        .timer-bar-wrap {
+            width: 100%;
+            max-width: 480px;
+            height: 6px;
+            background: rgba(255,255,255,.08);
+            border-radius: 100px;
+            overflow: hidden;
+        }
+        .timer-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #7C3AED, #3B82F6, #06B6D4);
+            border-radius: 100px;
+            transition: width .1s linear;
+        }
+
+        /* ポッドグリッド */
+        .pod-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .pod {
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: var(--card);
+            border: 3px solid rgba(255,255,255,.07);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            transition: transform .1s;
+            position: relative;
+            overflow: hidden;
+            user-select: none;
+        }
+        .pod::after {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity .15s;
+        }
+        .pod:active { transform: scale(.93); }
+
+        /* アクティブ状態 */
+        .pod.active--red    { background: #EF4444; border-color: #FCA5A5; box-shadow: 0 0 40px rgba(239,68,68,.7), 0 0 80px rgba(239,68,68,.3); animation: podGlow .6s ease-in-out infinite alternate; }
+        .pod.active--blue   { background: #3B82F6; border-color: #93C5FD; box-shadow: 0 0 40px rgba(59,130,246,.7), 0 0 80px rgba(59,130,246,.3); animation: podGlow .6s ease-in-out infinite alternate; }
+        .pod.active--green  { background: #22C55E; border-color: #86EFAC; box-shadow: 0 0 40px rgba(34,197,94,.7), 0 0 80px rgba(34,197,94,.3); animation: podGlow .6s ease-in-out infinite alternate; }
+        .pod.active--yellow { background: #F59E0B; border-color: #FCD34D; box-shadow: 0 0 40px rgba(245,158,11,.7), 0 0 80px rgba(245,158,11,.3); animation: podGlow .6s ease-in-out infinite alternate; }
+        .pod.active--purple { background: #7C3AED; border-color: #C4B5FD; box-shadow: 0 0 40px rgba(124,58,237,.7), 0 0 80px rgba(124,58,237,.3); animation: podGlow .6s ease-in-out infinite alternate; }
+        .pod.active--cyan   { background: #06B6D4; border-color: #67E8F9; box-shadow: 0 0 40px rgba(6,182,212,.7), 0 0 80px rgba(6,182,212,.3); animation: podGlow .6s ease-in-out infinite alternate; }
+        .pod.active--pink   { background: #EC4899; border-color: #F9A8D4; box-shadow: 0 0 40px rgba(236,72,153,.7), 0 0 80px rgba(236,72,153,.3); animation: podGlow .6s ease-in-out infinite alternate; }
+        .pod.active--orange { background: #F97316; border-color: #FDBA74; box-shadow: 0 0 40px rgba(249,115,22,.7), 0 0 80px rgba(249,115,22,.3); animation: podGlow .6s ease-in-out infinite alternate; }
+        .pod.active--lime   { background: #84CC16; border-color: #BEF264; box-shadow: 0 0 40px rgba(132,204,22,.7), 0 0 80px rgba(132,204,22,.3); animation: podGlow .6s ease-in-out infinite alternate; }
+
+        @keyframes podGlow {
+            from { transform: scale(1); }
+            to   { transform: scale(1.04); }
+        }
+
+        /* ヒット演出 */
+        .pod.hit {
+            animation: podHit .25s ease-out forwards !important;
+        }
+        @keyframes podHit {
+            0%   { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(.9); opacity: .3; }
+        }
+
+        /* ミス演出 */
+        .pod.miss-flash {
+            animation: missFl .2s ease-out;
+        }
+        @keyframes missFl {
+            0%,100% { border-color: rgba(255,255,255,.07); }
+            50% { border-color: #EF4444; box-shadow: 0 0 20px rgba(239,68,68,.5); }
+        }
+
+        /* リアクションタイム表示 */
+        .reaction-display {
+            font-family: 'Montserrat', sans-serif;
+            font-size: .78rem;
+            font-weight: 700;
+            color: var(--gold);
+            min-height: 20px;
+            letter-spacing: .05em;
+            text-align: center;
+        }
+
+        /* ストップボタン */
+        .stop-btn {
+            background: rgba(255,255,255,.06);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 28px;
+            color: var(--sub);
+            font-size: .78rem;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: .08em;
+        }
+        .stop-btn:active { background: rgba(255,255,255,.1); }
+
+        /* ══════════════ RESULT SCREEN ══════════════ */
+        #result {
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(124,58,237,.15) 0%, transparent 70%), var(--dark);
+            gap: 0;
+        }
+        .result__trophy { font-size: 3.5rem; margin-bottom: 8px; }
+        .result__title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--gold);
+            letter-spacing: .1em;
+            margin-bottom: 4px;
+        }
+        .result__mode { font-size: .8rem; color: var(--sub); margin-bottom: 28px; }
+        .result__grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            width: 100%;
+            max-width: 360px;
+            margin-bottom: 28px;
+        }
+        .result__item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 12px;
+            text-align: center;
+        }
+        .result__item--full { grid-column: 1 / -1; }
+        .result__val {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 900;
+            line-height: 1;
+            background: linear-gradient(120deg, #7C3AED, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .result__val--gold {
+            background: linear-gradient(120deg, #F59E0B, #F5C842);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .result__lbl { font-size: .68rem; color: var(--sub); margin-top: 4px; letter-spacing: .06em; }
+
+        .rank-badge {
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 100px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: .15em;
+            margin-bottom: 20px;
+        }
+        .rank-s { background: rgba(245,200,66,.15); color: var(--gold); border: 1px solid rgba(245,200,66,.3); }
+        .rank-a { background: rgba(124,58,237,.15); color: #A78BFA; border: 1px solid rgba(124,58,237,.3); }
+        .rank-b { background: rgba(59,130,246,.15); color: #93C5FD; border: 1px solid rgba(59,130,246,.3); }
+        .rank-c { background: rgba(255,255,255,.06); color: var(--sub); border: 1px solid var(--border); }
+
+        .result__btns {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            max-width: 360px;
+        }
+        .retry-btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #7C3AED, #3B82F6);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 24px rgba(124,58,237,.35);
+        }
+        .menu-btn-r {
+            padding: 16px 20px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--card);
+            color: var(--sub);
+            font-family: 'Montserrat', sans-serif;
+            font-size: .9rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ══ MENU ══ -->
+<div class="screen" id="menu">
+    <div class="menu__logo">⚡ Reaction Pod Training</div>
+    <h1 class="menu__title"><span>反応速度</span><br>トレーニング</h1>
+    <p class="menu__sub">光るポッドを素早くタッチ！</p>
+
+    <div class="section-label">— モード選択</div>
+    <div class="mode-grid">
+        <div class="mode-btn active" data-mode="30" onclick="selectMode(this,'30')">
+            <div class="mode-btn__icon">⚡</div>
+            <div class="mode-btn__name">30秒</div>
+            <div class="mode-btn__desc">タイムアタック</div>
+        </div>
+        <div class="mode-btn" data-mode="60" onclick="selectMode(this,'60')">
+            <div class="mode-btn__icon">🔥</div>
+            <div class="mode-btn__name">60秒</div>
+            <div class="mode-btn__desc">タイムアタック</div>
+        </div>
+        <div class="mode-btn" data-mode="survival" onclick="selectMode(this,'survival')">
+            <div class="mode-btn__icon">💀</div>
+            <div class="mode-btn__name">サバイバル</div>
+            <div class="mode-btn__desc">3ミスで終了</div>
+        </div>
+    </div>
+
+    <div class="section-label">— スピード</div>
+    <div class="diff-grid">
+        <div class="diff-btn" data-speed="2000" onclick="selectSpeed(this,2000)">
+            <div class="diff-btn__name">🐢 遅い</div>
+            <div class="diff-btn__ms">2.0 s</div>
+        </div>
+        <div class="diff-btn active" data-speed="1500" onclick="selectSpeed(this,1500)">
+            <div class="diff-btn__name">👟 普通</div>
+            <div class="diff-btn__ms">1.5 s</div>
+        </div>
+        <div class="diff-btn" data-speed="1000" onclick="selectSpeed(this,1000)">
+            <div class="diff-btn__name">⚡ 速い</div>
+            <div class="diff-btn__ms">1.0 s</div>
+        </div>
+        <div class="diff-btn" data-speed="700" onclick="selectSpeed(this,700)">
+            <div class="diff-btn__name">🚀 爆速</div>
+            <div class="diff-btn__ms">0.7 s</div>
+        </div>
+    </div>
+
+    <button class="start-btn" onclick="startCountdown()">START</button>
+</div>
+
+<!-- ══ COUNTDOWN ══ -->
+<div class="screen hidden" id="countdown">
+    <div class="countdown__num" id="cdNum">3</div>
+    <div class="countdown__text">構えて！</div>
+</div>
+
+<!-- ══ GAME ══ -->
+<div class="screen hidden" id="game">
+    <div class="game-header">
+        <div class="stat-box">
+            <div class="stat-box__val" id="scoreVal">0</div>
+            <div class="stat-box__label">SCORE</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-box__val" id="timerVal">30</div>
+            <div class="stat-box__label" id="timerLabel">TIME</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-box__val" id="missVal">0</div>
+            <div class="stat-box__label">MISS</div>
+        </div>
+    </div>
+
+    <div class="timer-bar-wrap" id="timerBarWrap">
+        <div class="timer-bar" id="timerBar" style="width:100%"></div>
+    </div>
+
+    <div class="pod-grid" id="podGrid">
+        <!-- 9 pods generated by JS -->
+    </div>
+
+    <div class="reaction-display" id="reactionDisplay"></div>
+
+    <button class="stop-btn" onclick="endGame()">STOP</button>
+</div>
+
+<!-- ══ RESULT ══ -->
+<div class="screen hidden" id="result">
+    <div class="result__trophy" id="resultTrophy">🏆</div>
+    <div class="result__title">RESULT</div>
+    <div class="result__mode" id="resultMode"></div>
+    <div class="rank-badge rank-s" id="rankBadge">RANK S</div>
+    <div class="result__grid">
+        <div class="result__item">
+            <div class="result__val" id="rScore">0</div>
+            <div class="result__lbl">SCORE</div>
+        </div>
+        <div class="result__item">
+            <div class="result__val" id="rHits">0</div>
+            <div class="result__lbl">HITS</div>
+        </div>
+        <div class="result__item">
+            <div class="result__val result__val--gold" id="rAvg">---</div>
+            <div class="result__lbl">平均反応速度</div>
+        </div>
+        <div class="result__item">
+            <div class="result__val result__val--gold" id="rBest">---</div>
+            <div class="result__lbl">最速反応速度</div>
+        </div>
+    </div>
+    <div class="result__btns">
+        <button class="retry-btn" onclick="retry()">もう一回</button>
+        <button class="menu-btn-r" onclick="goMenu()">メニュー</button>
+    </div>
+</div>
+
+<script>
+    // ── 設定 ──
+    const COLORS = ['red','blue','green','yellow','purple','cyan','pink','orange','lime'];
+    const ICONS  = ['⚡','🔥','⭐','💥','🎯','✨','🌟','💫','🎮'];
+    const POD_COUNT = 9;
+
+    let mode = '30';
+    let speedMs = 1500;
+    let score = 0;
+    let hits = 0;
+    let misses = 0;
+    let reactionTimes = [];
+    let activePodIndex = -1;
+    let podLitAt = 0;
+    let gameTimer = null;
+    let podTimer = null;
+    let timeLeft = 30;
+    let totalTime = 30;
+    let isPlaying = false;
+
+    // ── ポッド生成 ──
+    const grid = document.getElementById('podGrid');
+    for (let i = 0; i < POD_COUNT; i++) {
+        const pod = document.createElement('div');
+        pod.className = 'pod';
+        pod.dataset.index = i;
+        pod.innerHTML = '';
+        pod.addEventListener('pointerdown', () => tapPod(i));
+        grid.appendChild(pod);
+    }
+
+    function getPods() { return grid.querySelectorAll('.pod'); }
+
+    // ── モード・速度選択 ──
+    function selectMode(el, m) {
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        mode = m;
+    }
+    function selectSpeed(el, s) {
+        document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        speedMs = s;
+    }
+
+    // ── カウントダウン ──
+    function startCountdown() {
+        show('countdown');
+        let n = 3;
+        const el = document.getElementById('cdNum');
+        el.textContent = n;
+        const iv = setInterval(() => {
+            n--;
+            if (n <= 0) {
+                clearInterval(iv);
+                el.textContent = 'GO!';
+                setTimeout(startGame, 500);
+            } else {
+                el.textContent = n;
+            }
+        }, 900);
+    }
+
+    // ── ゲーム開始 ──
+    function startGame() {
+        score = 0; hits = 0; misses = 0; reactionTimes = [];
+        activePodIndex = -1;
+        isPlaying = true;
+
+        if (mode === 'survival') {
+            totalTime = 0;
+            document.getElementById('timerLabel').textContent = 'MISS';
+            document.getElementById('timerBarWrap').style.display = 'none';
+        } else {
+            totalTime = parseInt(mode);
+            timeLeft = totalTime;
+            document.getElementById('timerLabel').textContent = 'TIME';
+            document.getElementById('timerBarWrap').style.display = 'block';
+            document.getElementById('timerBar').style.width = '100%';
+            gameTimer = setInterval(tickTimer, 100);
+        }
+
+        updateHUD();
+        show('game');
+        schedulePod();
+    }
+
+    // ── タイマー ──
+    let timerMs = 0;
+    function tickTimer() {
+        timerMs += 100;
+        timeLeft = totalTime - timerMs / 1000;
+        if (timeLeft <= 0) { timeLeft = 0; endGame(); return; }
+        document.getElementById('timerVal').textContent = Math.ceil(timeLeft);
+        document.getElementById('timerBar').style.width = (timeLeft / totalTime * 100) + '%';
+    }
+
+    // ── ポッドを光らせる ──
+    function schedulePod() {
+        if (!isPlaying) return;
+        clearTimeout(podTimer);
+        // 前のポッドを消す
+        clearActivePod();
+        // 少し待ってから次を光らせる
+        const delay = Math.max(200, speedMs * 0.3 + Math.random() * speedMs * 0.4);
+        podTimer = setTimeout(() => {
+            if (!isPlaying) return;
+            lightRandomPod();
+            // タイムアウト（速度に応じて自動ミス）
+            podTimer = setTimeout(() => {
+                if (!isPlaying) return;
+                if (activePodIndex >= 0) {
+                    registerMiss();
+                }
+            }, speedMs * 1.8);
+        }, delay);
+    }
+
+    function lightRandomPod() {
+        const pods = getPods();
+        let idx;
+        do { idx = Math.floor(Math.random() * POD_COUNT); } while (idx === activePodIndex);
+        activePodIndex = idx;
+        podLitAt = Date.now();
+        const color = COLORS[idx];
+        pods[idx].classList.add('active--' + color);
+        pods[idx].innerHTML = ICONS[idx];
+    }
+
+    function clearActivePod() {
+        if (activePodIndex < 0) return;
+        const pods = getPods();
+        const pod = pods[activePodIndex];
+        COLORS.forEach(c => pod.classList.remove('active--' + c));
+        pod.innerHTML = '';
+        activePodIndex = -1;
+    }
+
+    // ── タップ処理 ──
+    function tapPod(idx) {
+        if (!isPlaying) return;
+        const pods = getPods();
+        if (idx === activePodIndex) {
+            // ヒット
+            const rt = Date.now() - podLitAt;
+            reactionTimes.push(rt);
+            hits++;
+            score += Math.max(10, Math.round(1500 / rt * 100));
+            showReaction(rt, true);
+            pods[idx].classList.add('hit');
+            COLORS.forEach(c => pods[idx].classList.remove('active--' + c));
+            pods[idx].innerHTML = '✓';
+            setTimeout(() => {
+                pods[idx].classList.remove('hit');
+                pods[idx].innerHTML = '';
+            }, 250);
+            activePodIndex = -1;
+            updateHUD();
+            clearTimeout(podTimer);
+            schedulePod();
+        } else {
+            // ミスタップ
+            pods[idx].classList.add('miss-flash');
+            setTimeout(() => pods[idx].classList.remove('miss-flash'), 200);
+        }
+    }
+
+    function registerMiss() {
+        misses++;
+        showReaction(null, false);
+        clearActivePod();
+        updateHUD();
+        if (mode === 'survival') {
+            document.getElementById('timerVal').textContent = misses;
+            if (misses >= 3) { endGame(); return; }
+        }
+        schedulePod();
+    }
+
+    function showReaction(ms, hit) {
+        const el = document.getElementById('reactionDisplay');
+        if (hit && ms) {
+            el.textContent = ms + ' ms ⚡';
+            el.style.color = ms < 400 ? '#22C55E' : ms < 700 ? '#F59E0B' : '#888';
+        } else {
+            el.textContent = 'ミス！';
+            el.style.color = '#EF4444';
+        }
+    }
+
+    function updateHUD() {
+        document.getElementById('scoreVal').textContent = score;
+        document.getElementById('missVal').textContent = misses;
+        if (mode === 'survival') {
+            document.getElementById('timerVal').textContent = misses;
+        }
+    }
+
+    // ── ゲーム終了 ──
+    function endGame() {
+        isPlaying = false;
+        clearInterval(gameTimer);
+        clearTimeout(podTimer);
+        clearActivePod();
+        timerMs = 0;
+
+        // 結果集計
+        const avg = reactionTimes.length ? Math.round(reactionTimes.reduce((a,b)=>a+b,0)/reactionTimes.length) : null;
+        const best = reactionTimes.length ? Math.min(...reactionTimes) : null;
+
+        document.getElementById('rScore').textContent = score;
+        document.getElementById('rHits').textContent = hits;
+        document.getElementById('rAvg').textContent = avg ? avg + 'ms' : '---';
+        document.getElementById('rBest').textContent = best ? best + 'ms' : '---';
+
+        const modeNames = { '30': '30秒モード', '60': '60秒モード', 'survival': 'サバイバルモード' };
+        document.getElementById('resultMode').textContent = modeNames[mode];
+
+        // ランク判定
+        const rankEl = document.getElementById('rankBadge');
+        let rank, trophy;
+        if (score >= 3000) { rank='S'; trophy='🏆'; rankEl.className='rank-badge rank-s'; }
+        else if (score >= 1800) { rank='A'; trophy='🥇'; rankEl.className='rank-badge rank-a'; }
+        else if (score >= 900)  { rank='B'; trophy='🥈'; rankEl.className='rank-badge rank-b'; }
+        else                    { rank='C'; trophy='🥉'; rankEl.className='rank-badge rank-c'; }
+        rankEl.textContent = 'RANK  ' + rank;
+        document.getElementById('resultTrophy').textContent = trophy;
+
+        show('result');
+    }
+
+    function retry() { startCountdown(); timerMs = 0; }
+    function goMenu() { show('menu'); timerMs = 0; }
+
+    // ── 画面切替 ──
+    function show(id) {
+        document.querySelectorAll('.screen').forEach(s => {
+            s.classList.toggle('hidden', s.id !== id);
+        });
+    }
+</script>
+</body>
+</html>

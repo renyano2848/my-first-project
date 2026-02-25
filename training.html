@@ -3,841 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>視覚刺激トレーニング | Vision Pod</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <title>視覚刺激トレーニング</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-        :root {
-            --dark:  #080810;
-            --dark2: #10101e;
-            --card:  #16162a;
-            --card2: #1e1e38;
-            --border: rgba(255,255,255,.09);
-            --txt:   #f2f2f8;
-            --sub:   #6b6b90;
-            --gold:  #F5C842;
-        }
-        html,body { height:100%; background:var(--dark); color:var(--txt);
-            font-family:'Noto Sans JP',sans-serif; overflow:hidden; }
-
-        .screen { position:fixed; inset:0; display:flex; flex-direction:column;
-            align-items:center; justify-content:center; padding:20px;
-            transition:opacity .25s, transform .25s; }
-        .screen.hidden { opacity:0; pointer-events:none; transform:scale(.97); }
-
-        /* ════════════ MENU ════════════ */
-        #menu { background: radial-gradient(ellipse 90% 60% at 50% -10%,
-            rgba(99,60,220,.2) 0%, transparent 65%), var(--dark); gap:0; }
-
-        .logo-badge {
-            font-family:'Montserrat',sans-serif; font-size:.58rem; font-weight:700;
-            letter-spacing:.5em; text-transform:uppercase; color:var(--gold);
-            background:rgba(245,200,66,.08); border:1px solid rgba(245,200,66,.2);
-            padding:6px 18px; border-radius:100px; margin-bottom:16px;
-        }
-        .menu-title {
-            font-family:'Montserrat',sans-serif;
-            font-size:clamp(2rem,7vw,3.2rem); font-weight:900;
-            line-height:1.1; text-align:center; margin-bottom:6px;
-        }
-        .menu-title span {
-            background:linear-gradient(120deg,#7C3AED,#3B82F6,#06B6D4);
-            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-        }
-        .menu-sub { font-size:.82rem; color:var(--sub); margin-bottom:32px; text-align:center; }
-
-        .sec-lbl {
-            font-family:'Montserrat',sans-serif; font-size:.55rem; font-weight:700;
-            letter-spacing:.45em; text-transform:uppercase; color:var(--sub);
-            margin-bottom:10px; align-self:flex-start; width:100%; max-width:380px;
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html, body {
+            height: 100%;
+            font-family: 'Montserrat', sans-serif;
+            overflow: hidden;
+            user-select: none;
         }
 
-        /* モードカード */
-        .mode-grid { display:grid; grid-template-columns:repeat(3,1fr);
-            gap:10px; width:100%; max-width:380px; margin-bottom:24px; }
-        .mc {
-            background:var(--card); border:2px solid var(--border); border-radius:16px;
-            padding:14px 8px 12px; text-align:center; cursor:pointer;
-            transition:border-color .2s,background .2s,transform .12s; user-select:none;
+        /* ════ メイン画面（色切替） ════ */
+        #screen {
+            position: fixed; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            transition: background-color .12s;
+            background: #111;
         }
-        .mc.active { border-color:#7C3AED; background:rgba(124,58,237,.18); }
-        .mc:active  { transform:scale(.94); }
-        .mc-icon  { font-size:1.8rem; margin-bottom:6px; }
-        .mc-name  { font-family:'Montserrat',sans-serif; font-size:.72rem; font-weight:700; }
-        .mc-desc  { font-size:.6rem; color:var(--sub); margin-top:3px; line-height:1.4; }
+        .color-name {
+            font-size: clamp(4rem, 20vw, 10rem);
+            font-weight: 900;
+            color: rgba(255,255,255,.85);
+            letter-spacing: .05em;
+            text-shadow: 0 4px 32px rgba(0,0,0,.3);
+        }
+        .color-en {
+            font-size: clamp(1rem, 4vw, 2rem);
+            font-weight: 700;
+            color: rgba(255,255,255,.45);
+            letter-spacing: .4em;
+            margin-top: 10px;
+        }
 
-        /* 難易度 */
-        .diff-grid { display:grid; grid-template-columns:repeat(3,1fr);
-            gap:10px; width:100%; max-width:380px; margin-bottom:28px; }
-        .dc {
-            background:var(--card); border:2px solid var(--border); border-radius:12px;
-            padding:12px 6px; text-align:center; cursor:pointer;
-            transition:border-color .2s,background .2s,transform .12s; user-select:none;
+        /* ════ 設定パネル ════ */
+        #settings {
+            position: fixed; inset: 0;
+            background: #0a0a12;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 28px 24px; gap: 0;
+            transition: opacity .25s;
         }
-        .dc.active { border-color:var(--gold); background:rgba(245,200,66,.1); }
-        .dc:active  { transform:scale(.94); }
-        .dc-name { font-family:'Montserrat',sans-serif; font-size:.7rem; font-weight:700; }
-        .dc-sub  { font-size:.58rem; color:var(--sub); margin-top:2px; }
+        #settings.hidden { opacity: 0; pointer-events: none; }
+
+        .s-logo {
+            font-size: .6rem; font-weight: 700; letter-spacing: .5em;
+            text-transform: uppercase; color: #F5C842;
+            margin-bottom: 12px;
+        }
+        .s-title {
+            font-size: clamp(1.8rem, 6vw, 2.8rem); font-weight: 900;
+            color: #f2f2f8; text-align: center; line-height: 1.15;
+            margin-bottom: 6px;
+        }
+        .s-sub { font-size: .82rem; color: #555; margin-bottom: 32px; }
+
+        /* 速度選択 */
+        .s-lbl {
+            font-size: .58rem; font-weight: 700; letter-spacing: .45em;
+            text-transform: uppercase; color: #444;
+            margin-bottom: 10px; align-self: flex-start;
+            width: 100%; max-width: 360px;
+        }
+        .speed-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 10px; width: 100%; max-width: 360px; margin-bottom: 28px;
+        }
+        .sp {
+            background: #16162a; border: 2px solid rgba(255,255,255,.07);
+            border-radius: 14px; padding: 14px 6px; text-align: center;
+            cursor: pointer; transition: border-color .2s, background .2s, transform .12s;
+        }
+        .sp.active { border-color: #F5C842; background: rgba(245,200,66,.1); }
+        .sp:active  { transform: scale(.93); }
+        .sp-val { font-size: 1.3rem; font-weight: 900; color: #f2f2f8; }
+        .sp-lbl { font-size: .58rem; color: #555; margin-top: 3px; }
+
+        /* 色選択 */
+        .color-grid {
+            display: flex; gap: 10px; width: 100%;
+            max-width: 360px; margin-bottom: 32px; flex-wrap: wrap;
+        }
+        .cg {
+            flex: 1; min-width: 80px;
+            background: #16162a; border: 2px solid rgba(255,255,255,.07);
+            border-radius: 14px; padding: 12px 6px; text-align: center;
+            cursor: pointer; transition: border-color .2s, background .2s, transform .12s;
+        }
+        .cg.active { background: rgba(255,255,255,.08); }
+        .cg:active  { transform: scale(.93); }
+        .cg-dot { width: 28px; height: 28px; border-radius: 50%; margin: 0 auto 6px; }
+        .cg-name { font-size: .65rem; font-weight: 700; color: #aaa; }
 
         .start-btn {
-            width:100%; max-width:380px; padding:18px; border:none; border-radius:14px;
-            background:linear-gradient(135deg,#7C3AED,#3B82F6);
-            color:#fff; font-family:'Montserrat',sans-serif; font-size:1rem; font-weight:700;
-            letter-spacing:.12em; cursor:pointer;
-            box-shadow:0 8px 32px rgba(124,58,237,.4);
-            transition:transform .12s,box-shadow .12s;
+            width: 100%; max-width: 360px; padding: 20px; border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #16C34A, #22C55E);
+            color: #fff; font-family: 'Montserrat', sans-serif;
+            font-size: 1.05rem; font-weight: 700; letter-spacing: .12em;
+            cursor: pointer; box-shadow: 0 8px 32px rgba(34,197,94,.4);
+            transition: transform .12s;
         }
-        .start-btn:active { transform:scale(.97); box-shadow:0 4px 16px rgba(124,58,237,.3); }
+        .start-btn:active { transform: scale(.97); }
 
-        /* ════════════ COUNTDOWN ════════════ */
-        #countdown { background:var(--dark); }
+        /* ════ 停止ボタン（プレイ中） ════ */
+        #stopBtn {
+            position: fixed; bottom: 36px; left: 50%; transform: translateX(-50%);
+            padding: 14px 40px; border: 1px solid rgba(255,255,255,.2);
+            border-radius: 100px; background: rgba(0,0,0,.35);
+            color: rgba(255,255,255,.6); font-family: 'Montserrat', sans-serif;
+            font-size: .8rem; font-weight: 700; letter-spacing: .15em;
+            cursor: pointer; backdrop-filter: blur(8px);
+            display: none;
+        }
+
+        /* ════ カウントダウン ════ */
+        #cdOverlay {
+            position: fixed; inset: 0;
+            background: #0a0a12;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity .2s;
+        }
+        #cdOverlay.show { opacity: 1; pointer-events: all; }
         .cd-num {
-            font-family:'Montserrat',sans-serif;
-            font-size:clamp(5rem,22vw,9rem); font-weight:900;
-            background:linear-gradient(120deg,#7C3AED,#3B82F6,#06B6D4);
-            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-            animation:cdPulse .85s ease-in-out infinite;
+            font-size: clamp(5rem, 22vw, 9rem); font-weight: 900;
+            background: linear-gradient(120deg, #22C55E, #3B82F6, #EF4444);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: cdp .85s ease-in-out infinite;
         }
-        @keyframes cdPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
-        .cd-txt { font-size:.88rem; color:var(--sub); margin-top:10px; }
-
-        /* ════════════ GAME ════════════ */
-        #game { background:var(--dark); justify-content:space-between;
-            padding:14px 18px 20px; }
-
-        /* HUD */
-        .hud { width:100%; max-width:480px; display:flex;
-            justify-content:space-between; align-items:center; }
-        .hud-box { text-align:center; }
-        .hud-val { font-family:'Montserrat',sans-serif; font-size:1.55rem;
-            font-weight:900; line-height:1; }
-        .hud-lbl { font-size:.55rem; color:var(--sub); letter-spacing:.15em;
-            text-transform:uppercase; margin-top:2px; }
-
-        /* タイマーバー */
-        .tbar-wrap { width:100%; max-width:480px; height:5px;
-            background:rgba(255,255,255,.06); border-radius:100px; overflow:hidden; }
-        .tbar { height:100%;
-            background:linear-gradient(90deg,#7C3AED,#3B82F6,#06B6D4);
-            border-radius:100px; transition:width .1s linear; }
-
-        /* ════ 視覚刺激インジケーター ════ */
-        .stimulus-bar {
-            width:100%; max-width:480px;
-            display:flex; align-items:center; justify-content:center;
-            min-height:56px;
-        }
-
-        /* カラーマッチ: ターゲット色表示 */
-        .target-color-box {
-            display:flex; align-items:center; gap:12px;
-            background:var(--card); border:1px solid var(--border);
-            border-radius:14px; padding:10px 20px;
-        }
-        .target-color-box .label { font-size:.62rem; color:var(--sub);
-            font-family:'Montserrat',sans-serif; letter-spacing:.2em; }
-        .target-circle {
-            width:36px; height:36px; border-radius:50%;
-            border:3px solid rgba(255,255,255,.25);
-            box-shadow:0 0 16px currentColor;
-        }
-        .target-name { font-family:'Montserrat',sans-serif;
-            font-size:1rem; font-weight:700; }
-
-        /* ナンバー: 次の数字表示 */
-        .next-num-box {
-            display:flex; align-items:center; gap:12px;
-            background:var(--card); border:1px solid var(--border);
-            border-radius:14px; padding:10px 20px;
-        }
-        .next-num-box .label { font-size:.62rem; color:var(--sub);
-            font-family:'Montserrat',sans-serif; letter-spacing:.2em; }
-        .next-num {
-            font-family:'Montserrat',sans-serif; font-size:2rem; font-weight:900;
-            background:linear-gradient(120deg,#F59E0B,#F5C842);
-            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-        }
-
-        /* パターン: フェーズ表示 */
-        .pattern-phase {
-            font-family:'Montserrat',sans-serif; font-size:.75rem; font-weight:700;
-            color:var(--sub); letter-spacing:.2em; text-align:center;
-        }
-        .pattern-phase span { color:#7C3AED; }
-
-        /* ════ ポッドグリッド ════ */
-        .pod-grid {
-            display:grid; grid-template-columns:repeat(3,1fr);
-            gap:14px; width:100%; max-width:400px;
-        }
-        .pod {
-            aspect-ratio:1; border-radius:50%;
-            background:var(--card2); border:3px solid rgba(255,255,255,.06);
-            cursor:pointer; display:flex; align-items:center; justify-content:center;
-            font-family:'Montserrat',sans-serif; font-size:1.5rem; font-weight:900;
-            transition:transform .1s;
-            position:relative; user-select:none;
-        }
-        .pod:active { transform:scale(.91); }
-
-        /* 色アクティブ */
-        .pod.c-red    { background:#EF4444; border-color:#FCA5A5; color:#fff;
-            box-shadow:0 0 32px rgba(239,68,68,.65),0 0 64px rgba(239,68,68,.25); animation:glow .5s ease-in-out infinite alternate; }
-        .pod.c-blue   { background:#3B82F6; border-color:#93C5FD; color:#fff;
-            box-shadow:0 0 32px rgba(59,130,246,.65),0 0 64px rgba(59,130,246,.25); animation:glow .5s ease-in-out infinite alternate; }
-        .pod.c-green  { background:#22C55E; border-color:#86EFAC; color:#fff;
-            box-shadow:0 0 32px rgba(34,197,94,.65),0 0 64px rgba(34,197,94,.25); animation:glow .5s ease-in-out infinite alternate; }
-        .pod.c-yellow { background:#F59E0B; border-color:#FCD34D; color:#fff;
-            box-shadow:0 0 32px rgba(245,158,11,.65),0 0 64px rgba(245,158,11,.25); animation:glow .5s ease-in-out infinite alternate; }
-        .pod.c-purple { background:#7C3AED; border-color:#C4B5FD; color:#fff;
-            box-shadow:0 0 32px rgba(124,58,237,.65),0 0 64px rgba(124,58,237,.25); animation:glow .5s ease-in-out infinite alternate; }
-        .pod.c-cyan   { background:#06B6D4; border-color:#67E8F9; color:#fff;
-            box-shadow:0 0 32px rgba(6,182,212,.65),0 0 64px rgba(6,182,212,.25); animation:glow .5s ease-in-out infinite alternate; }
-        .pod.c-pink   { background:#EC4899; border-color:#F9A8D4; color:#fff;
-            box-shadow:0 0 32px rgba(236,72,153,.65),0 0 64px rgba(236,72,153,.25); animation:glow .5s ease-in-out infinite alternate; }
-        .pod.c-orange { background:#F97316; border-color:#FDBA74; color:#fff;
-            box-shadow:0 0 32px rgba(249,115,22,.65),0 0 64px rgba(249,115,22,.25); animation:glow .5s ease-in-out infinite alternate; }
-        .pod.c-lime   { background:#84CC16; border-color:#BEF264; color:#1a1a1a;
-            box-shadow:0 0 32px rgba(132,204,22,.65),0 0 64px rgba(132,204,22,.25); animation:glow .5s ease-in-out infinite alternate; }
-
-        @keyframes glow { from{transform:scale(1)} to{transform:scale(1.05)} }
-
-        /* パターン記憶: 表示アニメ */
-        .pod.show-seq { animation:showSeq .4s ease-out; }
-        @keyframes showSeq { 0%{transform:scale(.7);opacity:.4} 60%{transform:scale(1.12)} 100%{transform:scale(1);opacity:1} }
-
-        /* ヒット */
-        .pod.hit-ok { animation:hitOk .22s ease-out forwards !important; }
-        @keyframes hitOk { 0%{transform:scale(1.2)} 100%{transform:scale(.85);opacity:.2} }
-
-        /* ミス */
-        .pod.miss { animation:missAnim .25s ease-out; }
-        @keyframes missAnim { 0%,100%{border-color:rgba(255,255,255,.06)} 50%{border-color:#EF4444;box-shadow:0 0 20px rgba(239,68,68,.5)} }
-
-        /* フィードバック */
-        .feedback {
-            font-family:'Montserrat',sans-serif; font-size:.8rem; font-weight:700;
-            min-height:22px; letter-spacing:.05em; text-align:center;
-        }
-        .fb-good { color:#22C55E; }
-        .fb-miss { color:#EF4444; }
-        .fb-info { color:var(--sub); }
-
-        /* ストップ */
-        .stop-btn {
-            background:rgba(255,255,255,.05); border:1px solid var(--border);
-            border-radius:10px; padding:10px 28px; color:var(--sub);
-            font-size:.75rem; font-family:'Montserrat',sans-serif; font-weight:700;
-            cursor:pointer; letter-spacing:.1em;
-        }
-
-        /* ════════════ RESULT ════════════ */
-        #result {
-            background:radial-gradient(ellipse 80% 55% at 50% 0%,
-                rgba(124,58,237,.18) 0%, transparent 65%), var(--dark);
-        }
-        .res-trophy { font-size:3.2rem; margin-bottom:6px; }
-        .res-title  { font-family:'Montserrat',sans-serif; font-size:1.2rem;
-            font-weight:900; color:var(--gold); letter-spacing:.12em; margin-bottom:3px; }
-        .res-mode   { font-size:.75rem; color:var(--sub); margin-bottom:16px; }
-
-        .rank-badge {
-            display:inline-block; padding:5px 20px; border-radius:100px;
-            font-family:'Montserrat',sans-serif; font-size:.72rem; font-weight:700;
-            letter-spacing:.18em; margin-bottom:20px;
-        }
-        .rs { background:rgba(245,200,66,.12); color:var(--gold); border:1px solid rgba(245,200,66,.3); }
-        .ra { background:rgba(124,58,237,.12); color:#A78BFA; border:1px solid rgba(124,58,237,.3); }
-        .rb { background:rgba(59,130,246,.12); color:#93C5FD; border:1px solid rgba(59,130,246,.3); }
-        .rc { background:rgba(255,255,255,.05); color:var(--sub); border:1px solid var(--border); }
-
-        .res-grid {
-            display:grid; grid-template-columns:1fr 1fr;
-            gap:10px; width:100%; max-width:360px; margin-bottom:24px;
-        }
-        .res-item {
-            background:var(--card); border:1px solid var(--border);
-            border-radius:14px; padding:14px 10px; text-align:center;
-        }
-        .res-item--full { grid-column:1/-1; }
-        .res-val {
-            font-family:'Montserrat',sans-serif; font-size:2rem; font-weight:900;
-            background:linear-gradient(120deg,#7C3AED,#3B82F6);
-            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-            line-height:1;
-        }
-        .res-val-g {
-            background:linear-gradient(120deg,#F59E0B,#F5C842);
-            -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
-        }
-        .res-lbl { font-size:.62rem; color:var(--sub); margin-top:4px; letter-spacing:.06em; }
-
-        .res-btns { display:flex; gap:12px; width:100%; max-width:360px; }
-        .btn-retry {
-            flex:1; padding:16px; border:none; border-radius:12px;
-            background:linear-gradient(135deg,#7C3AED,#3B82F6); color:#fff;
-            font-family:'Montserrat',sans-serif; font-size:.9rem; font-weight:700; cursor:pointer;
-            box-shadow:0 6px 24px rgba(124,58,237,.35);
-        }
-        .btn-menu {
-            padding:16px 18px; border:1px solid var(--border); border-radius:12px;
-            background:var(--card); color:var(--sub);
-            font-family:'Montserrat',sans-serif; font-size:.9rem; font-weight:700; cursor:pointer;
-        }
+        @keyframes cdp { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        .cd-txt { font-size: .9rem; color: #444; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-<!-- ══ MENU ══ -->
-<div class="screen" id="menu">
-    <div class="logo-badge">👁 Vision Pod — Visual Training</div>
-    <h1 class="menu-title"><span>視覚刺激</span><br>トレーニング</h1>
-    <p class="menu-sub">見て・判断して・素早くタッチ！</p>
-
-    <div class="sec-lbl">— トレーニング種目</div>
-    <div class="mode-grid">
-        <div class="mc active" onclick="selMode(this,'color')">
-            <div class="mc-icon">🎨</div>
-            <div class="mc-name">カラー<br>マッチ</div>
-            <div class="mc-desc">指定色のポッドだけタッチ</div>
-        </div>
-        <div class="mc" onclick="selMode(this,'number')">
-            <div class="mc-icon">🔢</div>
-            <div class="mc-name">ナンバー<br>オーダー</div>
-            <div class="mc-desc">1→9の順番にタッチ</div>
-        </div>
-        <div class="mc" onclick="selMode(this,'pattern')">
-            <div class="mc-icon">🧠</div>
-            <div class="mc-name">パターン<br>記憶</div>
-            <div class="mc-desc">光の順番を記憶して再現</div>
-        </div>
-    </div>
-
-    <div class="sec-lbl">— 難易度</div>
-    <div class="diff-grid">
-        <div class="dc" onclick="selDiff(this,'easy')">
-            <div class="dc-name">🐢 やさしい</div>
-            <div class="dc-sub">ゆっくり・少ない</div>
-        </div>
-        <div class="dc active" onclick="selDiff(this,'normal')">
-            <div class="dc-name">👟 ふつう</div>
-            <div class="dc-sub">標準スピード</div>
-        </div>
-        <div class="dc" onclick="selDiff(this,'hard')">
-            <div class="dc-name">🔥 むずかしい</div>
-            <div class="dc-sub">速い・多い</div>
-        </div>
-    </div>
-
-    <button class="start-btn" onclick="startCountdown()">START TRAINING</button>
+<!-- メイン画面 -->
+<div id="screen">
+    <div class="color-name" id="colorName"></div>
+    <div class="color-en"   id="colorEn"></div>
 </div>
+<button id="stopBtn" onclick="stopTraining()">■ STOP</button>
 
-<!-- ══ COUNTDOWN ══ -->
-<div class="screen hidden" id="countdown">
+<!-- カウントダウン -->
+<div id="cdOverlay">
     <div class="cd-num" id="cdNum">3</div>
-    <div class="cd-txt" id="cdTxt">準備して！</div>
+    <div class="cd-txt">準備して！</div>
 </div>
 
-<!-- ══ GAME ══ -->
-<div class="screen hidden" id="game">
+<!-- 設定 -->
+<div id="settings">
+    <div class="s-logo">👁 Visual Stimulus Training</div>
+    <h1 class="s-title">視覚刺激<br>トレーニング</h1>
+    <p class="s-sub">画面いっぱいに色が切り替わります</p>
 
-    <div class="hud">
-        <div class="hud-box">
-            <div class="hud-val" id="hScore">0</div>
-            <div class="hud-lbl">SCORE</div>
+    <div class="s-lbl">— 切替スピード</div>
+    <div class="speed-grid">
+        <div class="sp" onclick="selSpeed(this,3000)">
+            <div class="sp-val">3s</div>
+            <div class="sp-lbl">遅い</div>
         </div>
-        <div class="hud-box">
-            <div class="hud-val" id="hTime">60</div>
-            <div class="hud-lbl" id="hTimeLbl">TIME</div>
+        <div class="sp active" onclick="selSpeed(this,2000)">
+            <div class="sp-val">2s</div>
+            <div class="sp-lbl">ふつう</div>
         </div>
-        <div class="hud-box">
-            <div class="hud-val" id="hStreak">0</div>
-            <div class="hud-lbl">STREAK</div>
+        <div class="sp" onclick="selSpeed(this,1000)">
+            <div class="sp-val">1s</div>
+            <div class="sp-lbl">速い</div>
+        </div>
+        <div class="sp" onclick="selSpeed(this,500)">
+            <div class="sp-val">0.5s</div>
+            <div class="sp-lbl">爆速</div>
+        </div>
+    </div>
+
+    <div class="s-lbl">— 使用する色</div>
+    <div class="color-grid" id="colorGrid">
+        <div class="cg active" data-color="green" onclick="toggleColor(this)">
+            <div class="cg-dot" style="background:#22C55E;box-shadow:0 0 10px #22C55E88;"></div>
+            <div class="cg-name">みどり</div>
+        </div>
+        <div class="cg active" data-color="blue" onclick="toggleColor(this)">
+            <div class="cg-dot" style="background:#3B82F6;box-shadow:0 0 10px #3B82F688;"></div>
+            <div class="cg-name">あお</div>
+        </div>
+        <div class="cg active" data-color="red" onclick="toggleColor(this)">
+            <div class="cg-dot" style="background:#EF4444;box-shadow:0 0 10px #EF444488;"></div>
+            <div class="cg-name">あか</div>
+        </div>
+        <div class="cg" data-color="yellow" onclick="toggleColor(this)">
+            <div class="cg-dot" style="background:#F59E0B;box-shadow:0 0 10px #F59E0B88;"></div>
+            <div class="cg-name">きいろ</div>
         </div>
     </div>
 
-    <div class="tbar-wrap"><div class="tbar" id="tbar"></div></div>
-
-    <!-- 視覚刺激インジケーター（モードごとに切替） -->
-    <div class="stimulus-bar" id="stimBar"></div>
-
-    <div class="pod-grid" id="podGrid"></div>
-
-    <div class="feedback" id="feedback"></div>
-
-    <button class="stop-btn" onclick="endGame()">STOP</button>
-</div>
-
-<!-- ══ RESULT ══ -->
-<div class="screen hidden" id="result">
-    <div class="res-trophy" id="rTrophy">🏆</div>
-    <div class="res-title">RESULT</div>
-    <div class="res-mode" id="rMode"></div>
-    <div class="rank-badge rs" id="rRank">RANK S</div>
-    <div class="res-grid">
-        <div class="res-item">
-            <div class="res-val" id="rScore">0</div>
-            <div class="res-lbl">SCORE</div>
-        </div>
-        <div class="res-item">
-            <div class="res-val" id="rHits">0</div>
-            <div class="res-lbl">HITS</div>
-        </div>
-        <div class="res-item">
-            <div class="res-val res-val-g" id="rAcc">--%</div>
-            <div class="res-lbl">ACCURACY</div>
-        </div>
-        <div class="res-item">
-            <div class="res-val res-val-g" id="rStreak">0</div>
-            <div class="res-lbl">MAX STREAK</div>
-        </div>
-    </div>
-    <div class="res-btns">
-        <button class="btn-retry" onclick="retry()">もう一回</button>
-        <button class="btn-menu"  onclick="goMenu()">メニュー</button>
-    </div>
+    <button class="start-btn" onclick="startCountdown()">START</button>
 </div>
 
 <script>
-// ═══════════════════════════════════
-//  定数
-// ═══════════════════════════════════
-const COLORS = [
-    { key:'red',    hex:'#EF4444', label:'レッド'    },
-    { key:'blue',   hex:'#3B82F6', label:'ブルー'    },
-    { key:'green',  hex:'#22C55E', label:'グリーン'  },
-    { key:'yellow', hex:'#F59E0B', label:'イエロー'  },
-    { key:'purple', hex:'#7C3AED', label:'パープル'  },
-    { key:'cyan',   hex:'#06B6D4', label:'シアン'    },
-    { key:'pink',   hex:'#EC4899', label:'ピンク'    },
-    { key:'orange', hex:'#F97316', label:'オレンジ'  },
-    { key:'lime',   hex:'#84CC16', label:'ライム'    },
-];
-const DIFF = {
-    easy:   { podCount:6, interval:2200, seqLen:3, numCount:6 },
-    normal: { podCount:9, interval:1600, seqLen:4, numCount:9 },
-    hard:   { podCount:9, interval:1000, seqLen:6, numCount:9 },
-};
+    const COLORS_MAP = {
+        green:  { bg:'#16A34A', name:'みどり', en:'GREEN'  },
+        blue:   { bg:'#2563EB', name:'あお',   en:'BLUE'   },
+        red:    { bg:'#DC2626', name:'あか',   en:'RED'    },
+        yellow: { bg:'#D97706', name:'きいろ', en:'YELLOW' },
+    };
 
-// ═══════════════════════════════════
-//  状態
-// ═══════════════════════════════════
-let mode     = 'color';
-let diff     = 'normal';
-let score    = 0;
-let hits     = 0;
-let taps     = 0;
-let streak   = 0;
-let maxStreak= 0;
-let isPlaying= false;
-let timeLeft = 60;
-let totalTime= 60;
-let timerIv  = null;
-let timerMs  = 0;
-let podTmr   = null;
+    let speed = 2000;
+    let activeColors = ['green','blue','red'];
+    let colorIndex = 0;
+    let interval = null;
+    let isRandom = true;
 
-// カラーマッチ用
-let targetColorIdx = 0;
-let podColors = [];
+    function selSpeed(el, ms) {
+        document.querySelectorAll('.sp').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        speed = ms;
+    }
 
-// ナンバーオーダー用
-let nextNum = 1;
-
-// パターン記憶用
-let seqPhase  = 'show';  // 'show' | 'input'
-let seqOrder  = [];
-let seqShown  = [];
-let seqInput  = [];
-let seqRound  = 1;
-let seqShowTmr= null;
-
-// ═══════════════════════════════════
-//  ポッド生成
-// ═══════════════════════════════════
-const grid = document.getElementById('podGrid');
-for (let i=0;i<9;i++){
-    const p=document.createElement('div');
-    p.className='pod'; p.dataset.i=i;
-    p.addEventListener('pointerdown',()=>tapPod(i));
-    grid.appendChild(p);
-}
-function pods(){ return [...grid.querySelectorAll('.pod')]; }
-
-// ═══════════════════════════════════
-//  メニュー選択
-// ═══════════════════════════════════
-function selMode(el,m){
-    document.querySelectorAll('.mc').forEach(b=>b.classList.remove('active'));
-    el.classList.add('active'); mode=m;
-}
-function selDiff(el,d){
-    document.querySelectorAll('.dc').forEach(b=>b.classList.remove('active'));
-    el.classList.add('active'); diff=d;
-}
-
-// ═══════════════════════════════════
-//  カウントダウン
-// ═══════════════════════════════════
-function startCountdown(){
-    show('countdown');
-    let n=3;
-    document.getElementById('cdNum').textContent=n;
-    document.getElementById('cdTxt').textContent='準備して！';
-    const iv=setInterval(()=>{
-        n--;
-        if(n===0){
-            document.getElementById('cdNum').textContent='GO!';
-            clearInterval(iv);
-            setTimeout(startGame,500);
+    function toggleColor(el) {
+        const col = el.dataset.color;
+        const isActive = el.classList.toggle('active');
+        if (isActive) {
+            if (!activeColors.includes(col)) activeColors.push(col);
         } else {
-            document.getElementById('cdNum').textContent=n;
+            activeColors = activeColors.filter(c => c !== col);
+            // 最低1色は残す
+            if (activeColors.length === 0) {
+                activeColors.push(col);
+                el.classList.add('active');
+            }
         }
-    },900);
-}
-
-// ═══════════════════════════════════
-//  ゲーム開始
-// ═══════════════════════════════════
-function startGame(){
-    score=0; hits=0; taps=0; streak=0; maxStreak=0;
-    isPlaying=true; timerMs=0;
-    totalTime=60; timeLeft=60;
-
-    document.getElementById('tbar').style.width='100%';
-    timerIv=setInterval(tickTimer,100);
-    updateHUD();
-    show('game');
-
-    if(mode==='color')   startColorMode();
-    else if(mode==='number') startNumberMode();
-    else if(mode==='pattern') startPatternMode();
-}
-
-// ─── タイマー ───
-function tickTimer(){
-    timerMs+=100;
-    timeLeft=totalTime-timerMs/1000;
-    if(timeLeft<=0){ timeLeft=0; endGame(); return; }
-    document.getElementById('hTime').textContent=Math.ceil(timeLeft);
-    document.getElementById('tbar').style.width=(timeLeft/totalTime*100)+'%';
-}
-
-function updateHUD(){
-    document.getElementById('hScore').textContent=score;
-    document.getElementById('hStreak').textContent=streak;
-}
-
-function fb(text,cls){
-    const el=document.getElementById('feedback');
-    el.textContent=text; el.className='feedback '+cls;
-    clearTimeout(el._t);
-    el._t=setTimeout(()=>{ el.textContent=''; },900);
-}
-
-// ═══════════════════════════════════
-//  ① カラーマッチ
-//  指定色のポッドだけタップ
-// ═══════════════════════════════════
-function startColorMode(){
-    buildStimBar_color();
-    schedulColorRound();
-}
-
-function buildStimBar_color(){
-    const c=COLORS[targetColorIdx];
-    document.getElementById('stimBar').innerHTML=`
-        <div class="target-color-box">
-            <span class="label">TARGET</span>
-            <div class="target-circle" style="background:${c.hex};color:${c.hex};box-shadow:0 0 14px ${c.hex}88;"></div>
-            <span class="target-name" style="color:${c.hex}">${c.label}</span>
-        </div>`;
-}
-
-function schedulColorRound(){
-    if(!isPlaying) return;
-    clearTimeout(podTmr);
-    resetPods();
-    const cfg=DIFF[diff];
-    // 9ポッドに色をランダム配置（必ず1個以上ターゲット色）
-    podColors=[];
-    const available=[...COLORS.map((_,i)=>i)];
-    for(let i=0;i<9;i++){
-        podColors.push(available[Math.floor(Math.random()*available.length)]);
     }
-    // 最低1つはターゲット色に
-    const hasTarget=podColors.some(c=>c===targetColorIdx);
-    if(!hasTarget) podColors[Math.floor(Math.random()*9)]=targetColorIdx;
 
-    // 表示する数を難易度に応じて
-    const showCount=cfg.podCount;
-    const showIdxs=shuffle([...Array(9).keys()]).slice(0,showCount);
-    showIdxs.forEach(i=>lightPod(i,podColors[i]));
-
-    // タイムアウトでターゲット色を変更
-    podTmr=setTimeout(()=>{
-        if(!isPlaying) return;
-        nextTargetColor();
-        schedulColorRound();
-    }, cfg.interval*2);
-}
-
-function nextTargetColor(){
-    targetColorIdx=(targetColorIdx+1)%COLORS.length;
-    buildStimBar_color();
-}
-
-// ═══════════════════════════════════
-//  ② ナンバーオーダー
-//  1→2→3...の順にタップ
-// ═══════════════════════════════════
-function startNumberMode(){
-    nextNum=1;
-    buildStimBar_number();
-    layoutNumbers();
-}
-
-function buildStimBar_number(){
-    document.getElementById('stimBar').innerHTML=`
-        <div class="next-num-box">
-            <span class="label">NEXT</span>
-            <span class="next-num">${nextNum}</span>
-        </div>`;
-}
-
-function layoutNumbers(){
-    if(!isPlaying) return;
-    resetPods();
-    const cfg=DIFF[diff];
-    const count=cfg.numCount;
-    const positions=shuffle([...Array(9).keys()]).slice(0,count);
-    const nums=shuffle([...Array(count).keys()].map(i=>i+1));
-    positions.forEach((pos,i)=>{
-        const colorIdx=nums[i]%COLORS.length;
-        lightPod(pos,colorIdx,nums[i]);
-    });
-}
-
-// ═══════════════════════════════════
-//  ③ パターン記憶
-//  光の順番を見て同じ順番にタップ
-// ═══════════════════════════════════
-function startPatternMode(){
-    seqRound=1; seqPhase='show';
-    buildStimBar_pattern();
-    startSeqShow();
-}
-
-function buildStimBar_pattern(){
-    const el=document.getElementById('stimBar');
-    if(seqPhase==='show'){
-        el.innerHTML=`<div class="pattern-phase">👁 <span>記憶して</span>　光の順番を覚えよう！</div>`;
-    } else {
-        el.innerHTML=`<div class="pattern-phase">👆 <span>再現して</span>　同じ順番にタッチ！ (${seqInput.length+1}/${seqOrder.length})</div>`;
+    function startCountdown() {
+        if (activeColors.length < 1) return;
+        const cd = document.getElementById('cdOverlay');
+        const num = document.getElementById('cdNum');
+        cd.classList.add('show');
+        let n = 3;
+        num.textContent = n;
+        const iv = setInterval(() => {
+            n--;
+            if (n === 0) {
+                num.textContent = 'GO!';
+                clearInterval(iv);
+                setTimeout(() => { cd.classList.remove('show'); beginTraining(); }, 500);
+            } else {
+                num.textContent = n;
+            }
+        }, 900);
     }
-}
 
-function startSeqShow(){
-    seqOrder=[];
-    seqInput=[];
-    resetPods();
-    const cfg=DIFF[diff];
-    const len=Math.min(cfg.seqLen+Math.floor(seqRound/2),9);
-    const positions=shuffle([...Array(9).keys()]).slice(0,len);
-    positions.forEach(p=>seqOrder.push(p));
-
-    let i=0;
-    function showNext(){
-        if(i>0) resetPod(seqShown[i-1]);
-        if(i>=seqOrder.length){ seqPhase='input'; buildStimBar_pattern(); return; }
-        const pos=seqOrder[i];
-        const cidx=Math.floor(Math.random()*COLORS.length);
-        seqShown=seqShown||[];
-        seqShown[i]={pos,cidx};
-        lightPod(pos,cidx);
-        i++;
-        seqShowTmr=setTimeout(showNext,700);
+    function beginTraining() {
+        document.getElementById('settings').classList.add('hidden');
+        document.getElementById('stopBtn').style.display = 'block';
+        colorIndex = 0;
+        showColor();
+        interval = setInterval(showColor, speed);
     }
-    seqShown=[];
-    seqPhase='show';
-    buildStimBar_pattern();
-    seqShowTmr=setTimeout(showNext,600);
-}
 
-// ═══════════════════════════════════
-//  タップ処理（モード分岐）
-// ═══════════════════════════════════
-function tapPod(idx){
-    if(!isPlaying) return;
-    taps++;
+    function showColor() {
+        // ランダムに選ぶ（同じ色が連続しないよう工夫）
+        let cols = [...activeColors];
+        if (cols.length > 1) cols = cols.filter(c => c !== lastColor);
+        const col = cols[Math.floor(Math.random() * cols.length)];
+        lastColor = col;
 
-    if(mode==='color'){
-        handleColorTap(idx);
-    } else if(mode==='number'){
-        handleNumberTap(idx);
-    } else if(mode==='pattern'){
-        if(seqPhase==='input') handlePatternTap(idx);
+        const c = COLORS_MAP[col];
+        const s = document.getElementById('screen');
+        s.style.backgroundColor = c.bg;
+        document.getElementById('colorName').textContent = c.name;
+        document.getElementById('colorEn').textContent   = c.en;
     }
-    updateHUD();
-}
+    let lastColor = '';
 
-// ─ カラーマッチタップ ─
-function handleColorTap(idx){
-    const ps=pods();
-    // ポッドが光っているか確認
-    const isLit=COLORS.some(c=>ps[idx].classList.contains('c-'+c.key));
-    if(!isLit){ ps[idx].classList.add('miss'); setTimeout(()=>ps[idx].classList.remove('miss'),250); return; }
-
-    if(podColors[idx]===targetColorIdx){
-        // 正解
-        hits++;
-        streak++;
-        if(streak>maxStreak) maxStreak=streak;
-        score+=10+streak*2;
-        fb('✓ GOOD! +'+(10+streak*2),'fb-good');
-        ps[idx].classList.add('hit-ok');
-        setTimeout(()=>{ ps[idx].classList.remove('hit-ok'); resetPod(idx); },220);
-        // 正解後に次のターゲット色へ
-        nextTargetColor();
-        clearTimeout(podTmr);
-        setTimeout(()=>schedulColorRound(),300);
-    } else {
-        // 不正解
-        streak=0;
-        fb('✗ ちがう色！','fb-miss');
-        ps[idx].classList.add('miss');
-        setTimeout(()=>ps[idx].classList.remove('miss'),250);
+    function stopTraining() {
+        clearInterval(interval);
+        document.getElementById('screen').style.backgroundColor = '#111';
+        document.getElementById('colorName').textContent = '';
+        document.getElementById('colorEn').textContent   = '';
+        document.getElementById('stopBtn').style.display = 'none';
+        document.getElementById('settings').classList.remove('hidden');
     }
-}
-
-// ─ ナンバーオーダータップ ─
-function handleNumberTap(idx){
-    const ps=pods();
-    const txt=ps[idx].textContent;
-    const num=parseInt(txt);
-    if(isNaN(num)) return;
-
-    if(num===nextNum){
-        hits++;
-        streak++;
-        if(streak>maxStreak) maxStreak=streak;
-        score+=15+streak*3;
-        fb('✓ '+num+'！ +'+(15+streak*3),'fb-good');
-        ps[idx].classList.add('hit-ok');
-        setTimeout(()=>{ ps[idx].classList.remove('hit-ok'); resetPod(idx); },220);
-        nextNum++;
-        const cfg=DIFF[diff];
-        if(nextNum>cfg.numCount){ nextNum=1; setTimeout(layoutNumbers,400); }
-        buildStimBar_number();
-    } else {
-        streak=0;
-        fb('✗ '+nextNum+'を探して！','fb-miss');
-        ps[idx].classList.add('miss');
-        setTimeout(()=>ps[idx].classList.remove('miss'),250);
-    }
-}
-
-// ─ パターン記憶タップ ─
-function handlePatternTap(idx){
-    const ps=pods();
-    const expected=seqOrder[seqInput.length];
-    seqInput.push(idx);
-    buildStimBar_pattern();
-
-    if(idx===expected){
-        // 正解
-        const cidx=seqShown[seqInput.length-1]?.cidx||0;
-        lightPod(idx,cidx);
-        setTimeout(()=>resetPod(idx),300);
-
-        if(seqInput.length===seqOrder.length){
-            // 全部正解
-            hits++;
-            streak++;
-            if(streak>maxStreak) maxStreak=streak;
-            score+=seqOrder.length*20+streak*10;
-            fb('🧠 パーフェクト！ +'+(seqOrder.length*20+streak*10),'fb-good');
-            seqRound++;
-            setTimeout(()=>startSeqShow(),800);
-        }
-    } else {
-        // 不正解
-        streak=0;
-        fb('✗ まちがえた！','fb-miss');
-        ps[idx].classList.add('miss');
-        setTimeout(()=>{ ps[idx].classList.remove('miss'); resetPods(); startSeqShow(); },500);
-    }
-}
-
-// ═══════════════════════════════════
-//  ポッド操作
-// ═══════════════════════════════════
-function lightPod(idx,colorIdx,label){
-    const ps=pods();
-    const c=COLORS[colorIdx];
-    COLORS.forEach(cl=>ps[idx].classList.remove('c-'+cl.key));
-    ps[idx].classList.add('c-'+c.key);
-    ps[idx].textContent= label!=null ? label : '';
-}
-
-function resetPod(idx){
-    const ps=pods();
-    COLORS.forEach(c=>ps[idx].classList.remove('c-'+c.key));
-    ps[idx].classList.remove('show-seq','hit-ok','miss');
-    ps[idx].textContent='';
-}
-
-function resetPods(){
-    for(let i=0;i<9;i++) resetPod(i);
-}
-
-function shuffle(arr){
-    for(let i=arr.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [arr[i],arr[j]]=[arr[j],arr[i]];
-    }
-    return arr;
-}
-
-// ═══════════════════════════════════
-//  ゲーム終了
-// ═══════════════════════════════════
-function endGame(){
-    isPlaying=false;
-    clearInterval(timerIv);
-    clearTimeout(podTmr);
-    clearTimeout(seqShowTmr);
-    resetPods(); timerMs=0;
-
-    const acc=taps>0?Math.round(hits/taps*100):0;
-    document.getElementById('rScore').textContent=score;
-    document.getElementById('rHits').textContent=hits;
-    document.getElementById('rAcc').textContent=acc+'%';
-    document.getElementById('rStreak').textContent=maxStreak;
-
-    const names={color:'カラーマッチ',number:'ナンバーオーダー',pattern:'パターン記憶'};
-    const dnames={easy:'やさしい',normal:'ふつう',hard:'むずかしい'};
-    document.getElementById('rMode').textContent=names[mode]+' — '+dnames[diff];
-
-    const rankEl=document.getElementById('rRank');
-    let trophy;
-    if(score>=2000){rankEl.className='rank-badge rs';rankEl.textContent='RANK  S';trophy='🏆';}
-    else if(score>=1000){rankEl.className='rank-badge ra';rankEl.textContent='RANK  A';trophy='🥇';}
-    else if(score>=500){rankEl.className='rank-badge rb';rankEl.textContent='RANK  B';trophy='🥈';}
-    else{rankEl.className='rank-badge rc';rankEl.textContent='RANK  C';trophy='🥉';}
-    document.getElementById('rTrophy').textContent=trophy;
-
-    show('result');
-}
-
-function retry(){ startCountdown(); timerMs=0; nextNum=1; seqRound=1; targetColorIdx=0; }
-function goMenu(){ show('menu'); timerMs=0; nextNum=1; seqRound=1; targetColorIdx=0; }
-
-function show(id){
-    document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('hidden',s.id!==id));
-}
-
-// JSの文字列テンプレートリテラルの丸括弧を修正
-// fb関数内の`+（`は日本語括弧なので修正
 </script>
 </body>
 </html>

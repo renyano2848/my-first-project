@@ -69,7 +69,7 @@
         }
         .speed-grid {
             display: grid; grid-template-columns: repeat(4, 1fr);
-            gap: 10px; width: 100%; max-width: 360px; margin-bottom: 28px;
+            gap: 8px; width: 100%; max-width: 360px; margin-bottom: 28px;
         }
         .sp {
             background: #16162a; border: 2px solid rgba(255,255,255,.07);
@@ -160,21 +160,37 @@
 
     <div class="s-lbl">— 切替スピード</div>
     <div class="speed-grid">
-        <div class="sp" onclick="selSpeed(this,3000)">
+        <div class="sp" onclick="selSpeed(this,30000)">
+            <div class="sp-val">30s</div>
+            <div class="sp-lbl"></div>
+        </div>
+        <div class="sp" onclick="selSpeed(this,20000)">
+            <div class="sp-val">20s</div>
+            <div class="sp-lbl"></div>
+        </div>
+        <div class="sp" onclick="selSpeed(this,15000)">
+            <div class="sp-val">15s</div>
+            <div class="sp-lbl"></div>
+        </div>
+        <div class="sp" onclick="selSpeed(this,10000)">
+            <div class="sp-val">10s</div>
+            <div class="sp-lbl"></div>
+        </div>
+        <div class="sp" onclick="selSpeed(this,8000)">
+            <div class="sp-val">8s</div>
+            <div class="sp-lbl"></div>
+        </div>
+        <div class="sp" onclick="selSpeed(this,5000)">
+            <div class="sp-val">5s</div>
+            <div class="sp-lbl"></div>
+        </div>
+        <div class="sp active" onclick="selSpeed(this,3000)">
             <div class="sp-val">3s</div>
-            <div class="sp-lbl">遅い</div>
+            <div class="sp-lbl"></div>
         </div>
-        <div class="sp active" onclick="selSpeed(this,2000)">
+        <div class="sp" onclick="selSpeed(this,2000)">
             <div class="sp-val">2s</div>
-            <div class="sp-lbl">ふつう</div>
-        </div>
-        <div class="sp" onclick="selSpeed(this,1000)">
-            <div class="sp-val">1s</div>
-            <div class="sp-lbl">速い</div>
-        </div>
-        <div class="sp" onclick="selSpeed(this,500)">
-            <div class="sp-val">0.5s</div>
-            <div class="sp-lbl">爆速</div>
+            <div class="sp-lbl"></div>
         </div>
     </div>
 
@@ -209,7 +225,7 @@
         yellow: { bg:'#D97706', name:'きいろ', en:'YELLOW' },
     };
 
-    let speed = 2000;
+    let speed = 3000;
     let activeColors = ['green','blue','red'];
     let colorIndex = 0;
     let interval = null;

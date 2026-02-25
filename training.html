@@ -273,16 +273,12 @@
         const c = COLORS_MAP[col];
         const s = document.getElementById('screen');
         s.style.backgroundColor = c.bg;
-        document.getElementById('colorName').textContent = c.name;
-        document.getElementById('colorEn').textContent   = c.en;
     }
     let lastColor = '';
 
     function stopTraining() {
         clearInterval(interval);
         document.getElementById('screen').style.backgroundColor = '#111';
-        document.getElementById('colorName').textContent = '';
-        document.getElementById('colorEn').textContent   = '';
         document.getElementById('stopBtn').style.display = 'none';
         document.getElementById('settings').classList.remove('hidden');
     }
